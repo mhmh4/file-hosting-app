@@ -3,13 +3,15 @@ const express = require("express");
 const sqlite3 = require('sqlite3');
 const { open } = require('sqlite');
 
+let db = null;
 // this is a top-level await
 (async () => {
     // open the database
-    const db = await open({
+    db = await open({
       filename: './database.db',
       driver: sqlite3.Database
     })
+  return db;
 })()
 
 const app = express();
@@ -23,7 +25,7 @@ app.use(express.json())
 app.get("/", (req, res) => {
   res.render("index");
 });
-app.get("/register", (req, res) => {
+app.get("/register", async (req, res) => {
   res.render("register");
 });
 app.get("/login", (req, res) => {
@@ -34,10 +36,12 @@ app.get("/home", (req, res) => {
   res.render("home");
 });
 
-app.post("/register", (req, res) => {
+app.post("/register", async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
-  res.status(201).json([{username, password}]);
+  const result = await db.run(`INSERT INTO users (username, password) VALUES ("${username}", "${password}")`);
+  // res.status(201).json([{username, password}]);
+  res.render("login");
 });
 
 
