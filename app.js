@@ -33,6 +33,11 @@ app.get("/login", (req, res) => {
   res.render("login");
 });
 
+app.post("/login", (req, res) => {
+
+  res.redirect("home");
+});
+
 app.get("/home", (req, res) => {
   res.render("home");
 });
@@ -45,9 +50,12 @@ app.post("/register", async (req, res) => {
   res.render("login");
 });
 
+app.get("/logout", (req, res) => {
+  res.redirect("login");
+});
 
-const userRouter = require("./routes/users");
+// const userRouter = require("./routes/users");
 
-app.use("/users", userRouter);
+// app.use("/users", userRouter);
 
 app.listen(port);
