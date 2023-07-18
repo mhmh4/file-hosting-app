@@ -1,11 +1,23 @@
 const bcrypt = require("bcrypt");
 const express = require("express");
+const sqlite3 = require('sqlite3');
+const { open } = require('sqlite');
+
+// this is a top-level await
+(async () => {
+    // open the database
+    const db = await open({
+      filename: './database.db',
+      driver: sqlite3.Database
+    })
+})()
 
 const app = express();
 const port = 3000;
 app.set("view engine", "ejs");
 app.use(express.urlencoded({extended: true}));
 app.use(express.json())
+
 
 
 app.get("/", (req, res) => {
@@ -16,6 +28,10 @@ app.get("/register", (req, res) => {
 });
 app.get("/login", (req, res) => {
   res.render("login");
+});
+
+app.get("/home", (req, res) => {
+  res.render("home");
 });
 
 app.post("/register", (req, res) => {
