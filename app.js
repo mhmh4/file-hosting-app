@@ -23,7 +23,8 @@ app.use(express.json())
 
 
 app.get("/", (req, res) => {
-  res.render("index");
+  res.redirect("login")
+  // res.render("index");
 });
 app.get("/register", async (req, res) => {
   res.render("register");
