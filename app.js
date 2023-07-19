@@ -6,6 +6,7 @@ const fileUpload = require("express-fileupload");
 const session = require("express-session");
 
 const User = require("./models/user");
+let db = require("./db");
 
 const app = express();
 const port = 3000;
