@@ -6,19 +6,21 @@
   <title>FHSP - Register</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-sky-900 mt-24">
-  <div class="mx-10 bg-white w-2/5 mx-auto p-8 rounded">
-    <h1 class="text-3xl">fhsp</h1>
-    <a class="text-sky-300" href="/login">login</a>
-    <a class="text-sky-500" href="/register">register</a>
-    <form method="post">
+<body>
+  <div class="mx-10 bg-white w-2/5 mx-auto p-8 rounded mt-24">
+    <div class="text-center">
+      <h1 class="text-4xl mb-2">FHSP</h1>
+      <a class="text-sky-300" href="/login">login</a>
+      <a class="text-sky-500" href="/register">register</a>
+    </div>
+    <form class="w-96 mx-auto text-center" method="post">
       <div>
-        <input class="border-2 py-1 px-1 rounded" name="username" placeholder="username" type="text">
+        <input class="border-2 my-2 py-5 px-4 pl-3" name="username" placeholder="Username" type="text">
       </div>
       <div>
-        <input class="border-2 py-1 px-1 rounded" name="password" placeholder="password" type="password">
+        <input class="border-2 my-2 py-5 px-4 pl-3" name="password" placeholder="Password" type="password">
       </div>
-      <input type="submit" value="Submit">
+      <input class="bg-blue-200 px-2 py-1 w-max rounded hover:cursor-pointer" type="submit" value="Submit">
     </form>
   </div>
 </body>
