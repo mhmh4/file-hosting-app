@@ -6,16 +6,18 @@
   <title>FHSP - Home</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <header class="flex py-5 px-24 border-b-2 border-sky-400">
+<body class="bg-sky-900">
+  <header class="flex bg-white mx-auto w-2/5 py-5 px-24 border-b-2 border-sky-400">
     <div class="grow">
       <h1>FHSP</h1>
     </div>
     <div>
-      <a class="text-sky-500" href="/logout">Logout</a>
+      <form method="post" action="/logout">
+        <input class="text-sky-500" type="submit" value="Logout">
+      </form>
     </div>
   </header>
-  <div class="px-24 bg-sky-900 h-screen">
+  <div class="px-24 h-screen w-2/5 bg-white mx-auto">
     <h1>my files</h1>
     <form action="upload" method="post" encType="multipart/form-data" class="my-3 py-3 bg-white border rounded">
       <input type="file">
