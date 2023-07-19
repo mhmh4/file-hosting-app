@@ -3,16 +3,21 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FHSP - Login</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <div class="mx-10">
+<body class="bg-sky-900 mt-24">
+  <div class="mx-10 bg-white w-2/5 mx-auto p-8 rounded">
     <h1 class="text-3xl">fhsp</h1>
     <a class="text-sky-500" href="/login">login</a>
     <a class="text-sky-300" href="/register">register</a>
     <form method="post">
-      <input class="border-2 py-1 px-1 rounded" name="username" placeholder="username" type="text">
-      <input class="border-2 py-1 px-1 rounded" name="password" placeholder="password" type="password">
+      <div>
+        <input class="border-2 py-1 px-1 rounded" name="username" placeholder="username" type="text">
+      </div>
+      <div>
+        <input class="border-2 py-1 px-1 rounded" name="password" placeholder="password" type="password">
+      </div>
       <input type="submit" value="Submit">
     </form>
   </div>
