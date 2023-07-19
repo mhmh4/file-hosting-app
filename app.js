@@ -1,9 +1,11 @@
+const fs = require("fs");
+
 const bcrypt = require("bcrypt");
 const express = require("express");
 const fileUpload = require("express-fileupload");
+const session = require("express-session");
 
 const User = require("./models/user");
-const db = require("./db");
 
 const app = express();
 const port = 3000;
@@ -12,6 +14,13 @@ app.set("view engine", "ejs");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(fileUpload());
+app.use(
+  session({
+    secret: "secret key",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
 app.get("/", (req, res) => {
   res.redirect("login");
@@ -29,6 +38,8 @@ app.post("/login", async (req, res) => {
 
   try {
     if (await bcrypt.compare(req.body.password, user.password)) {
+      req.session.userId = user._id;
+      req.session.username = user.username;
       res.redirect("home");
     } else {
       res.send("invalid login");
@@ -60,18 +71,28 @@ app.post("/register", async (req, res) => {
   res.redirect("login");
 });
 
+// todo: make middleware function
+const createDirectoryIfNotExists = (directoryPath) => {
+  if (!fs.existsSync(directoryPath)) {
+    fs.mkdirSync(directoryPath);
+  }
+};
+
 app.get("/home", (req, res) => {
+  createDirectoryIfNotExists(__dirname + "/uploads/" + req.session.username);
   res.render("home");
 });
 
 app.post("/upload", async (req, res) => {
-  console.log(req.files);
   if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(400).send("No files were uploaded.");
   }
 
+  let x = await User.findOne({ _id: req.session.userId });
+
   let file = req.files.file;
-  let uploadPath = __dirname + "/uploads/" + file.name;
+  let uploadPath =
+    __dirname + "/uploads/" + req.session.username + "/" + file.name;
 
   file.mv(uploadPath, (error) => {
     if (error) {
