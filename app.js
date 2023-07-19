@@ -36,7 +36,6 @@ app.post("/login", async (req, res) => {
   if (user == null) {
     res.send("invalid login");
   }
-
   try {
     if (await bcrypt.compare(req.body.password, user.password)) {
       req.session.userId = user._id;
@@ -79,17 +78,19 @@ const createDirectoryIfNotExists = (directoryPath) => {
   }
 };
 
-app.get("/home", (req, res) => {
+app.get("/home", async (req, res) => {
   createDirectoryIfNotExists(__dirname + "/uploads/" + req.session.username);
-  res.render("home");
+  let id = req.session.userId;
+  let user = await User.findOne({ _id: id });
+  // console.log("!", user);
+  let files = user.files || [];
+  res.render("home", { files: files });
 });
 
 app.post("/upload", async (req, res) => {
   if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(400).send("No files were uploaded.");
   }
-
-  let x = await User.findOne({ _id: req.session.userId });
 
   let file = req.files.file;
   let uploadPath =
@@ -99,6 +100,11 @@ app.post("/upload", async (req, res) => {
     if (error) {
       return res.status(500).send("error");
     }
+  });
+
+  await User.findOne({ _id: req.session.userId }).then((user) => {
+    user.files.push(file.name);
+    user.save();
   });
 
   res.redirect("home");
