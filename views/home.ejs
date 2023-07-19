@@ -3,10 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FHSP - Home</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-  <header class="flex py-5 px-24 border-b-2">
+  <header class="flex py-5 px-24 border-b-2 border-sky-400">
     <div class="grow">
       <h1>FHSP</h1>
     </div>
@@ -14,9 +15,9 @@
       <a class="text-sky-500" href="/logout">Logout</a>
     </div>
   </header>
-  <div class="px-24 bg-slate-50 vh-full">
+  <div class="px-24 bg-sky-900 h-screen">
     <h1>my files</h1>
-    <form action="" class="my-3 py-3 bg-white border rounded">
+    <form action="upload" method="post" encType="multipart/form-data" class="my-3 py-3 bg-white border rounded">
       <input type="file">
       <input type="submit" value="Upload" class="bg-cyan-800 text-white px-3 py-1 rounded">
     </form>
