@@ -16,10 +16,6 @@ app.get("/", (req, res) => {
   res.redirect("login");
 });
 
-app.get("/register", async (req, res) => {
-  res.render("register");
-});
-
 app.get("/login", (req, res) => {
   res.render("login");
 });
@@ -27,28 +23,22 @@ app.get("/login", (req, res) => {
 app.post("/login", async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
-  const user = await User.find({ username: username });
-  console.log(user);
-  if (user != []) {
+  const user = await User.findOne({ username: username, password: password });
+  if (user) {
     res.redirect("home");
   } else {
-    res.redirect("login");
+    res.status(401).redirect("login");
   }
 });
-app.get("/home", (req, res) => {
-  res.render("home");
+
+app.get("/register", async (req, res) => {
+  res.render("register");
 });
 
 app.post("/register", async (req, res) => {
-  // const username = req.body.username;
-  // const password = req.body.password;
   // try {
   //   const salt = await bcrypt.genSalt();
-  //   const hashedPassword = await bcrypt.hash(password, salt);
-  //   await db.run(
-  //     `INSERT INTO users (username, password) VALUES ("${username}", "${hashedPassword}")`,
-  //   );
-  // } catch {
+  //   const hashedPassword = await bcrypt.hash(password, salt);  // } catch {
   //   res.status(500);
   // }
   // res.status(201).json([{username, password}]);
@@ -58,19 +48,22 @@ app.post("/register", async (req, res) => {
     password: req.body.password,
   });
   try {
-    const newUser = await user.save();
+    await user.save();
   } catch {
     res.status(500);
   }
-
   res.redirect("login");
+});
+
+app.get("/home", (req, res) => {
+  res.render("home");
 });
 
 app.post("/upload", (req, res) => {
   res.redirect("home");
 });
 
-app.get("/logout", (req, res) => {
+app.post("/logout", (req, res) => {
   res.redirect("login");
 });
 
