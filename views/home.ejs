@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>FHSP - Home</title>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
@@ -33,16 +33,18 @@
       </form>
       <div class="border min-h-12 grid grid-cols-4">
         <% for (let i = 0; i < files.length; i++) { %>
-        <div class="border my-2 mx-2 rounded flex flex-col">
-          <div class="overflow-hidden truncate border"><%= files[i] %></div>
-          <div class="w-full text-center">
+        <div class="my-2 mx-2 rounded-xl flex flex-col">
+          <div class="overflow-hidden truncate border">
+            <%= files[i] %>
+          </div>
+          <div class="border w-full h-24 text-center bg-slate-100">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="w-6 h-6"
+              class="w-12 h-12 mx-auto align-middle text-slate-700"
             >
               <path
                 stroke-linecap="round"
