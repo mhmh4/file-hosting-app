@@ -24,7 +24,19 @@
       <input type="submit" value="Upload" class="bg-cyan-800 text-white px-3 py-1 rounded">
     </form>
     <div class="border min-h-12">
-      <%= files %>
+      <% for (let i = 0; i < files.length; i++) { %>
+        <div class="flex border my-2 mx-2">
+          <div class="grow">
+            <%= files[i] %>
+          </div>
+          <div class="mx-2">
+            <button class="bg-blue-100">Download</button>
+          </div>
+          <div class="mx-2">
+            <button class="bg-slate-100">Remove</button>
+          </div>
+        </div>
+      <% } %>
     </div>
   </div>
 </body>
