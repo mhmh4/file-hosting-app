@@ -86,8 +86,9 @@ app.get("/home", async (req, res) => {
   createDirectoryIfNotExists(__dirname + "/uploads/" + req.session.username);
   let id = req.session.userId;
   let user = await User.findOne({ _id: id });
-  if (user == null || user == undefined) {
+  if (!user) {
     res.redirect("login");
+    return;
   }
   let files = user.files || [];
   res.render("home", { files: files });
