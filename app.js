@@ -18,7 +18,7 @@ app.use(fileUpload());
 app.use(
   session({
     secret: "secret key",
-    resave: false,
+    resave: true,
     saveUninitialized: true,
   })
 );
@@ -71,7 +71,6 @@ app.post("/register", async (req, res) => {
   res.redirect("login");
 });
 
-// todo: make middleware function
 const createDirectoryIfNotExists = (directoryPath) => {
   if (!fs.existsSync(directoryPath)) {
     fs.mkdirSync(directoryPath);
@@ -82,7 +81,6 @@ app.get("/home", async (req, res) => {
   createDirectoryIfNotExists(__dirname + "/uploads/" + req.session.username);
   let id = req.session.userId;
   let user = await User.findOne({ _id: id });
-  // console.log("!", user);
   let files = user.files || [];
   res.render("home", { files: files });
 });
@@ -108,6 +106,11 @@ app.post("/upload", async (req, res) => {
   });
 
   res.redirect("home");
+});
+
+app.post("/download", async (req, res) => {
+  let file = req.body.file;
+  res.download(__dirname + "/uploads/" + req.session.username + "/" + file);
 });
 
 app.post("/logout", (req, res) => {
