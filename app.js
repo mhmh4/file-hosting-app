@@ -129,7 +129,6 @@ app.post("/remove", async (req, res) => {
     __dirname + "/uploads/" + req.session.username + "/" + file,
     (err) => {
       if (err) throw err;
-      console.log("path/file.txt was deleted");
     }
   );
 
