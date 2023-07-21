@@ -1,6 +1,7 @@
 const fs = require("fs");
 
 const bcrypt = require("bcrypt");
+const nunjucks = require("nunjucks");
 const express = require("express");
 const fileUpload = require("express-fileupload");
 const session = require("express-session");
@@ -11,12 +12,9 @@ let db = require("./db");
 const app = express();
 const port = 3000;
 
-app.use((req, res, next) => {
-  res.set("Cache-Control", "no-store");
-  next();
+nunjucks.configure("views", {
+  express: app,
 });
-
-app.set("view engine", "ejs");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(fileUpload());
@@ -28,12 +26,17 @@ app.use(
   })
 );
 
+app.use((req, res, next) => {
+  res.set("Cache-Control", "no-store");
+  next();
+});
+
 app.get("/", (req, res) => {
   res.redirect("login");
 });
 
 app.get("/login", (req, res) => {
-  res.render("login");
+  res.render("login.html");
 });
 
 app.post("/login", async (req, res) => {
@@ -55,7 +58,7 @@ app.post("/login", async (req, res) => {
 });
 
 app.get("/register", async (req, res) => {
-  res.render("register");
+  res.render("register.html");
 });
 
 app.post("/register", async (req, res) => {
@@ -91,7 +94,7 @@ app.get("/home", async (req, res) => {
     return;
   }
   let files = user.files || [];
-  res.render("home", { files: files });
+  res.render("home.html", { files: files });
 });
 
 app.post("/upload", async (req, res) => {
