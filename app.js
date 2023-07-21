@@ -81,6 +81,9 @@ app.get("/home", async (req, res) => {
   createDirectoryIfNotExists(__dirname + "/uploads/" + req.session.username);
   let id = req.session.userId;
   let user = await User.findOne({ _id: id });
+  if (user == null || user == undefined) {
+    res.redirect("login");
+  }
   let files = user.files || [];
   res.render("home", { files: files });
 });
@@ -111,6 +114,25 @@ app.post("/upload", async (req, res) => {
 app.post("/download", async (req, res) => {
   let file = req.body.file;
   res.download(__dirname + "/uploads/" + req.session.username + "/" + file);
+});
+
+app.post("/remove", async (req, res) => {
+  let file = req.body.file;
+
+  fs.unlink(
+    __dirname + "/uploads/" + req.session.username + "/" + file,
+    (err) => {
+      if (err) throw err;
+      console.log("path/file.txt was deleted");
+    }
+  );
+
+  await User.findOne({ _id: req.session.userId }).then((user) => {
+    user.files = user.files.filter((e) => e !== file);
+    user.save();
+  });
+
+  res.redirect("home");
 });
 
 app.post("/logout", (req, res) => {

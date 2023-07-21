@@ -62,8 +62,8 @@
               </form>
             </div>
             <div class="">
-              <form method="get">
-                <button type="submit" class="bg-slate-100 hover:bg-slate-200 px-4 py-2 rounded">
+              <form method="post" action="remove">
+                <button name="file" value="<%= files[i] %>" type="submit" class="bg-slate-100 hover:bg-slate-200 px-4 py-2 rounded">
                   Remove
                 </button>
               </form>
