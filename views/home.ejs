@@ -13,7 +13,7 @@
       </div>
       <div>
         <form method="post" action="/logout">
-          <input class="text-sky-500" type="submit" value="Logout" />
+          <input class="text-sky-500 hover:cursor-pointer" type="submit" value="Logout">
         </form>
       </div>
     </header>
@@ -24,12 +24,12 @@
         class="my-3 py-3 bg-white border rounded"
         encType="multipart/form-data"
       >
-        <input type="file" name="file" />
+        <input type="file" name="file">
         <input
           type="submit"
           value="Upload"
-          class="bg-cyan-800 text-white px-3 py-1 rounded"
-        />
+          class="bg-cyan-800 text-white px-3 py-1 rounded hover:cursor-pointer"
+       >
       </form>
       <div class="border min-h-12 grid grid-cols-4">
         <% for (let i = 0; i < files.length; i++) { %>
@@ -50,19 +50,23 @@
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
-              />
+              >
             </svg>
           </div>
           <div class="flex">
             <div class="">
-              <button class="bg-blue-100 hover:bg-blue-200 px-4 rounded py-2">
-                Download
-              </button>
+              <form method="post" action="download">
+                <button name="file" value="<%= files[i] %>" type="submit" class="bg-blue-100 hover:bg-blue-200 px-4 rounded py-2">
+                  Download
+                </button>
+              </form>
             </div>
             <div class="">
-              <button class="bg-slate-100 hover:bg-slate-200 px-4 py-2 rounded">
-                Remove
-              </button>
+              <form method="get">
+                <button type="submit" class="bg-slate-100 hover:bg-slate-200 px-4 py-2 rounded">
+                  Remove
+                </button>
+              </form>
             </div>
           </div>
         </div>
