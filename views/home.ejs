@@ -33,18 +33,18 @@
       </form>
       <div class="border min-h-12 grid grid-cols-4">
         <% for (let i = 0; i < files.length; i++) { %>
-        <div class="my-2 mx-2 rounded-xl flex flex-col">
-          <div class="overflow-hidden truncate border">
+        <div class="my-2 mx-2 rounded-xl border-2 flex flex-col">
+          <div class="overflow-hidden truncate">
             <%= files[i] %>
           </div>
-          <div class="border w-full h-24 text-center bg-slate-100">
+          <div class="border w-full h-20 text-center bg-slate-100">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="w-12 h-12 mx-auto align-middle text-slate-700"
+              class="w-12 h-12 mt-3 mx-auto align-middle text-slate-700"
             >
               <path
                 stroke-linecap="round"
@@ -53,15 +53,15 @@
               >
             </svg>
           </div>
-          <div class="flex">
-            <div class="">
+          <div class="flex my-1">
+            <div class="mx-auto">
               <form method="post" action="download">
                 <button name="file" value="<%= files[i] %>" type="submit" class="bg-blue-100 hover:bg-blue-200 px-4 rounded py-2">
                   Download
                 </button>
               </form>
             </div>
-            <div class="">
+            <div class="mx-auto">
               <form method="post" action="remove">
                 <button name="file" value="<%= files[i] %>" type="submit" class="bg-slate-100 hover:bg-slate-200 px-4 py-2 rounded">
                   Remove
