@@ -143,4 +143,6 @@ app.post("/logout", (req, res) => {
   res.redirect("login");
 });
 
-app.listen(port);
+app.listen(port, () => {
+  console.log("Listening on port " + port);
+});
