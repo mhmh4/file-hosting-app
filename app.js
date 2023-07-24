@@ -1,6 +1,5 @@
 const fs = require("fs");
 
-const bcrypt = require("bcrypt");
 const nunjucks = require("nunjucks");
 const express = require("express");
 const fileUpload = require("express-fileupload");
@@ -45,7 +44,7 @@ app.post("/login", async (req, res) => {
     res.send("invalid login");
   }
   try {
-    if (await bcrypt.compare(req.body.password, user.password)) {
+    if (req.body.password === user.password) {
       req.session.userId = user._id;
       req.session.username = user.username;
       res.redirect("home");
@@ -62,12 +61,9 @@ app.get("/register", async (req, res) => {
 });
 
 app.post("/register", async (req, res) => {
-  const salt = await bcrypt.genSalt();
-  const hashedPassword = await bcrypt.hash(req.body.password, salt);
-
   const user = new User({
     username: req.body.username,
-    password: hashedPassword,
+    password: req.body.username,
   });
 
   try {
