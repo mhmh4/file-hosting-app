@@ -1,19 +1,19 @@
 const fs = require("fs");
 
-const nunjucks = require("nunjucks");
 const express = require("express");
 const fileUpload = require("express-fileupload");
+const mongoose = require("mongoose");
+const nunjucks = require("nunjucks");
 const session = require("express-session");
 
 const User = require("./models/user");
-let db = require("./db");
 
 const app = express();
 const port = 3000;
 
-nunjucks.configure("views", {
-  express: app,
-});
+mongoose.connect("mongodb://127.0.0.1:27017/fhsp");
+
+nunjucks.configure("views", { express: app });
 
 app.use(express.urlencoded({ extended: true }));
 app.use(fileUpload());
