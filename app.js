@@ -45,7 +45,6 @@ app.post("/login", async (req, res) => {
   }
   try {
     if (req.body.password === user.password) {
-      req.session.userId = user._id;
       req.session.username = user.username;
       res.redirect("home");
     } else {
@@ -83,8 +82,7 @@ const createDirectoryIfNotExists = (directoryPath) => {
 
 app.get("/home", async (req, res) => {
   createDirectoryIfNotExists(__dirname + "/uploads/" + req.session.username);
-  let id = req.session.userId;
-  let user = await User.findOne({ _id: id });
+  let user = await User.findOne({ username: req.session.username });
   if (!user) {
     res.redirect("login");
     return;
@@ -108,7 +106,7 @@ app.post("/upload", async (req, res) => {
     }
   });
 
-  await User.findOne({ _id: req.session.userId }).then((user) => {
+  await User.findOne({ username: req.session.username }).then((user) => {
     user.files.push(file.name);
     user.save();
   });
@@ -131,7 +129,7 @@ app.post("/remove", async (req, res) => {
     }
   );
 
-  await User.findOne({ _id: req.session.userId }).then((user) => {
+  await User.findOne({ username: req.session.username }).then((user) => {
     user.files = user.files.filter((e) => e !== file);
     user.save();
   });
