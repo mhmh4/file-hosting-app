@@ -74,6 +74,10 @@ app.post("/register", async (req, res) => {
   res.redirect("login");
 });
 
+const myDirectory = (username) => {
+  return `${__dirname}/uploads/${username}`;
+};
+
 const createDirectoryIfNotExists = (directoryPath) => {
   if (!fs.existsSync(directoryPath)) {
     fs.mkdirSync(directoryPath);
@@ -81,7 +85,7 @@ const createDirectoryIfNotExists = (directoryPath) => {
 };
 
 app.get("/home", async (req, res) => {
-  createDirectoryIfNotExists(__dirname + "/uploads/" + req.session.username);
+  createDirectoryIfNotExists(myDirectory(req.session.username));
   let user = await User.findOne({ username: req.session.username });
   if (!user) {
     res.redirect("login");
@@ -97,8 +101,7 @@ app.post("/upload", async (req, res) => {
   }
 
   let file = req.files.file;
-  let uploadPath =
-    __dirname + "/uploads/" + req.session.username + "/" + file.name;
+  let uploadPath = myDirectory(req.session.username) + "/" + file.name;
 
   file.mv(uploadPath, (error) => {
     if (error) {
@@ -116,18 +119,15 @@ app.post("/upload", async (req, res) => {
 
 app.post("/download", async (req, res) => {
   let file = req.body.file;
-  res.download(__dirname + "/uploads/" + req.session.username + "/" + file);
+  res.download(myDirectory(req.session.username) + "/" + file);
 });
 
 app.post("/remove", async (req, res) => {
   let file = req.body.file;
 
-  fs.unlink(
-    __dirname + "/uploads/" + req.session.username + "/" + file,
-    (err) => {
-      if (err) throw err;
-    }
-  );
+  fs.unlink(myDirectory(req.session.username) + "/" + file, (err) => {
+    if (err) throw err;
+  });
 
   await User.findOne({ username: req.session.username }).then((user) => {
     user.files = user.files.filter((e) => e !== file);
