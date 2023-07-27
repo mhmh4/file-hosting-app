@@ -141,6 +141,10 @@ app.post("/logout", (req, res) => {
   res.redirect("login");
 });
 
+app.get("/account", (req, res) => {
+  res.render("account.html");
+});
+
 app.listen(port, () => {
   console.log("Listening on port " + port);
 });

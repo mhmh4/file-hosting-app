@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>FHSP - Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <header class="flex bg-white mx-auto w-4/5 py-5 px-24 border">
+      <div class="grow">
+        <h1>FHSP</h1>
+      </div>
+      <div class="flex">
+      <div>
+        <a href="/home">Home</a>
+      </div>
+      <div class="mx-4">
+        <a href="/account">Account</a>
+      </div>
+      <div>
+        <form method="post" action="/logout">
+          <input class="text-sky-500 hover:cursor-pointer" type="submit" value="Logout">
+        </form>
+      </div>
+    </div>
+    </header>
+    <div class="px-12 h-screen w-4/5 bg-white mx-auto border">
+      My account
+    </div>
+  </body>
+</html>
