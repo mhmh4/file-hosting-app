@@ -110,7 +110,10 @@ app.post("/upload", async (req, res) => {
   });
 
   await User.findOne({ username: req.session.username }).then((user) => {
-    user.files.push(file.name);
+    user.files.push({
+      name: file.name,
+      created_at: new Date().toUTCString(),
+    });
     user.save();
   });
 
