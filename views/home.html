@@ -52,7 +52,7 @@
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="w-12 h-12 mt-3 mx-auto align-middle text-slate-700"
+              class="w-12 h-12 mt-3 mx-auto align-middle text-slate-200"
             >
               <path
                 stroke-linecap="round"
@@ -70,20 +70,36 @@
           <div class="flex my-1">
             <div class="mx-auto">
               <form method="post" action="download">
-                <button name="file" value="{{ file.name }}" type="submit" class="bg-blue-100 hover:bg-blue-200 px-4 rounded py-2">
+                <button name="file" value="{{ file.name }}" type="submit" class="bg-blue-100 w-24 hover:bg-blue-200 text-center rounded py-2">
                   Download
                 </button>
               </form>
             </div>
             <div class="mx-auto">
               <form method="post" action="remove">
-                <button name="file" value="{{ file.name }}" type="submit" class="bg-slate-100 hover:bg-slate-200 px-4 py-2 rounded">
+                <button name="file" value="{{ file.name }}" type="submit" class="bg-red-100 w-24 hover:bg-red-200  py-2 rounded">
                   Remove
                 </button>
               </form>
             </div>
           </div>
-        </div>
+          <div class="flex my-1">
+            <div class="mx-auto">
+              <form method="get" action="#">
+                <button name="file" value="{{ file.name }}" type="submit" class="bg-slate-200 w-24 text-center rounded py-2">
+                  Copy
+                </button>
+              </form>
+            </div>
+            <div class="mx-auto">
+              <form method="get" action="#">
+                <button name="file" value="{{ file.name }}" type="submit" class="bg-slate-200 w-24 text-center py-2 rounded">
+                  Rename
+                </button>
+              </form>
+            </div>
+          </div>
+          </div>
         {% endfor %}
       </div>
     </div>
