@@ -1,6 +1,7 @@
 const fs = require("fs");
 
 const express = require("express");
+const flash = require("express-flash");
 const fileUpload = require("express-fileupload");
 const mongoose = require("mongoose");
 const nunjucks = require("nunjucks");
@@ -17,6 +18,7 @@ nunjucks.configure("views", { express: app, watch: true });
 
 app.use(express.urlencoded({ extended: true }));
 app.use(fileUpload());
+app.use(flash());
 app.use(
   session({
     secret: "secret key",
@@ -40,8 +42,9 @@ app.get("/login", (req, res) => {
 
 app.post("/login", async (req, res) => {
   const user = await User.findOne({ username: req.body.username });
-  if (user == null) {
-    res.send("invalid login");
+  if (!user) {
+    req.flash("info", "Invalid username or password");
+    res.redirect("login");
   }
   try {
     if (req.body.password === user.password) {

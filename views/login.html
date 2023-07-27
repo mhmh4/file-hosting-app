@@ -14,6 +14,9 @@
       <a class="text-sky-300" href="/register">register</a>
     </div>
     <form class="w-96 mx-auto text-center" method="post">
+      {% if messages.info %}
+        {{ messages.info }}
+      {% endif %}
       <div>
         <input class="border-2 my-2 py-5 px-4 pl-3" name="username" placeholder="Username" type="text">
       </div>
