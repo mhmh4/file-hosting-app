@@ -134,7 +134,7 @@ app.post("/remove", async (req, res) => {
   });
 
   await User.findOne({ username: req.session.username }).then((user) => {
-    user.files = user.files.filter((e) => e !== file);
+    user.files = user.files.filter((e) => e.name !== file);
     user.save();
   });
 
