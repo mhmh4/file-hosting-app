@@ -113,6 +113,7 @@ app.post("/upload", async (req, res) => {
     user.files.push({
       name: file.name,
       created_at: new Date().toUTCString(),
+      size: file.size,
     });
     user.save();
   });
