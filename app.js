@@ -13,7 +13,7 @@ const port = 3000;
 
 mongoose.connect("mongodb://127.0.0.1:27017/fhsp");
 
-nunjucks.configure("views", { express: app });
+nunjucks.configure("views", { express: app, watch: true });
 
 app.use(express.urlencoded({ extended: true }));
 app.use(fileUpload());
