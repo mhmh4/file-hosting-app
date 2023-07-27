@@ -149,6 +149,22 @@ app.get("/account", (req, res) => {
   res.render("account.html");
 });
 
+app.post("/delete", async (req, res) => {
+  await User.deleteOne({ username: req.session.username });
+
+  fs.rmdir(
+    myDirectory(req.session.username),
+    { recursive: true, force: true },
+    (err) => {
+      if (err) {
+        throw err;
+      }
+    }
+  );
+
+  res.redirect("login");
+});
+
 app.listen(port, () => {
   console.log("Listening on port " + port);
 });
