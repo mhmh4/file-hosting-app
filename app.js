@@ -45,13 +45,15 @@ app.post("/login", async (req, res) => {
   if (!user) {
     req.flash("info", "Invalid username or password");
     res.redirect("login");
+    return;
   }
   try {
     if (req.body.password === user.password) {
       req.session.username = user.username;
       res.redirect("home");
     } else {
-      res.send("invalid login");
+      req.flash("info", "Invalid username or password");
+      res.redirect("login");
     }
   } catch {
     res.status(500).send();
@@ -63,6 +65,13 @@ app.get("/register", async (req, res) => {
 });
 
 app.post("/register", async (req, res) => {
+  let tmp = await User.findOne({ username: req.body.username });
+  if (tmp) {
+    req.flash("info", "Username is already taken");
+    res.redirect("register");
+    return;
+  }
+
   const user = new User({
     username: req.body.username,
     password: req.body.password,
