@@ -109,7 +109,13 @@ app.get("/home", async (req, res) => {
     return;
   }
   let files = user.files || [];
-  res.render("home.html", { files: files });
+  let storage = 0;
+  for (const f of files) {
+    storage += f.size;
+  }
+  storage /= 1_000_000;
+  storage = Math.round(storage);
+  res.render("home.html", { files: files, storage: storage });
 });
 
 app.post("/upload", async (req, res) => {

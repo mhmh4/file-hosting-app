@@ -28,9 +28,9 @@
   <div class="px-12 min-h-screen w-4/5 bg-white mx-auto border pb-6">
     <div class="border">
       <div>stats</div>
-      <div class="flex items-stretch border mx-2">
-        <div>Number of files: A</div>
-        <div>Storage used: B% / C%</div>
+      <div class="flex items-center border mx-2">
+        <div class="">Number of files: {{ files.length }}</div>
+        <div>Storage used: {{ storage }} MB / 100 MB</div>
       </div>
     </div>
     <div class="my-2 border">
