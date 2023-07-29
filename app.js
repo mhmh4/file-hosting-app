@@ -87,8 +87,12 @@ app.post("/register", async (req, res) => {
   res.redirect("login");
 });
 
-function getUploadPath(username) {
+function getUploadDirectory(username) {
   return `${__dirname}/uploads/${username}/`;
+}
+
+function getUploadPath(username, fileName) {
+  return getUploadDirectory(username) + fileName;
 }
 
 function createDirectoryIfNotExists(directoryPath) {
@@ -98,7 +102,7 @@ function createDirectoryIfNotExists(directoryPath) {
 }
 
 app.get("/home", async (req, res) => {
-  createDirectoryIfNotExists(getUploadPath(req.session.username));
+  createDirectoryIfNotExists(getUploadDirectory(req.session.username));
   let user = await User.findOne({ username: req.session.username });
   if (!user) {
     res.redirect("login");
@@ -114,7 +118,7 @@ app.post("/upload", async (req, res) => {
   }
 
   let file = req.files.file;
-  let uploadPath = getUploadPath(req.session.username) + file.name;
+  let uploadPath = getUploadPath(req.session.username, file.name);
 
   file.mv(uploadPath, (error) => {
     if (error) {
@@ -136,13 +140,13 @@ app.post("/upload", async (req, res) => {
 
 app.post("/download", async (req, res) => {
   let file = req.body.file;
-  res.download(getUploadPath(req.session.username) + file);
+  res.download(getUploadPath(req.session.username, file));
 });
 
 app.post("/remove", async (req, res) => {
   let file = req.body.file;
 
-  fs.unlink(getUploadPath(req.session.username) + file, (err) => {
+  fs.unlink(getUploadPath(req.session.username, file), (err) => {
     if (err) throw err;
   });
 
@@ -166,7 +170,7 @@ app.post("/delete", async (req, res) => {
   await User.deleteOne({ username: req.session.username });
 
   fs.rmdir(
-    getUploadPath(req.session.username),
+    getUploadDirectory(req.session.username),
     { recursive: true, force: true },
     (err) => {
       if (err) {
