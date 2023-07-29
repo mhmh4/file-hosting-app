@@ -1,5 +1,6 @@
 const crypto = require("crypto");
 const fs = require("fs");
+const path = require("path");
 
 const express = require("express");
 const flash = require("express-flash");
@@ -168,6 +169,34 @@ app.post("/upload", async (req, res) => {
 app.post("/download", async (req, res) => {
   let file = req.body.file;
   res.download(getUploadPath(req.session.username, file));
+});
+
+app.post("/copy", async (req, res) => {
+  let file = req.body.file;
+
+  let filename = path.parse(file).name;
+  filename = filename + ".copy" + path.extname(file);
+
+  const src = getUploadPath(req.session.username, file);
+  const dest = getUploadPath(req.session.username, filename);
+
+  fs.copyFile(src, dest, (err) => {
+    if (err) {
+      throw err;
+    }
+  });
+
+  await User.findOne({ username: req.session.username }).then((user) => {
+    user.files.push({
+      name: filename,
+      created_at: new Date().toUTCString(),
+      size: file.size,
+    });
+    user.save();
+  });
+
+  req.flash("info", `Created copy of ${file}`);
+  res.redirect("home");
 });
 
 app.post("/remove", async (req, res) => {
