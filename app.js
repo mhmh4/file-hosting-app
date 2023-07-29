@@ -135,6 +135,7 @@ app.post("/upload", async (req, res) => {
     user.save();
   });
 
+  req.flash("info", `Uploaded ${file.name}`);
   res.redirect("home");
 });
 
@@ -155,6 +156,7 @@ app.post("/remove", async (req, res) => {
     user.save();
   });
 
+  req.flash("info", `Deleted ${file}`);
   res.redirect("home");
 });
 
