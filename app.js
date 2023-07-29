@@ -169,7 +169,7 @@ app.get("/account", (req, res) => {
 app.post("/delete", async (req, res) => {
   await User.deleteOne({ username: req.session.username });
 
-  fs.rmdir(
+  fs.rm(
     getUploadDirectory(req.session.username),
     { recursive: true, force: true },
     (err) => {
