@@ -126,6 +126,26 @@ app.post("/upload", async (req, res) => {
   let file = req.files.file;
   let uploadPath = getUploadPath(req.session.username, file.name);
 
+  let files;
+  try {
+    let user = await User.findOne({ username: req.session.username });
+    files = user.files;
+  } catch {}
+
+  let storageUsed = files.reduce(
+    (accumulator, file) => accumulator + file.size,
+    0
+  );
+
+  if (storageUsed + file.size > 100000000) {
+    req.flash(
+      "info",
+      `Error: Uploading "${file.name}" exceeds the storage limit.`
+    );
+    res.redirect("home");
+    return;
+  }
+
   file.mv(uploadPath, (error) => {
     if (error) {
       return res.status(500).send("error");
