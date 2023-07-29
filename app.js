@@ -164,8 +164,8 @@ app.post("/logout", (req, res) => {
   res.redirect("login");
 });
 
-app.get("/account", (req, res) => {
-  res.render("account.html");
+app.get("/settings", (req, res) => {
+  res.render("settings.html");
 });
 
 app.post("/delete", async (req, res) => {
