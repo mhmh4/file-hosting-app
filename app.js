@@ -1,3 +1,4 @@
+const crypto = require("crypto");
 const fs = require("fs");
 
 const express = require("express");
@@ -21,7 +22,7 @@ app.use(fileUpload());
 app.use(flash());
 app.use(
   session({
-    secret: "secret key",
+    secret: crypto.randomBytes(64).toString("hex"),
     resave: true,
     saveUninitialized: true,
   })
