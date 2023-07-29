@@ -223,6 +223,19 @@ app.get("/settings", (req, res) => {
   res.render("settings.html");
 });
 
+app.post("/delete_all_files", async (req, res) => {
+  const directory = getUploadDirectory(req.session.username);
+  fs.readdirSync(directory).forEach((f) => fs.rmSync(`${directory}/${f}`));
+
+  await User.findOne({ username: req.session.username }).then((user) => {
+    user.files = [];
+    user.save();
+  });
+
+  req.flash("info", "All files deleted.");
+  res.redirect("home");
+});
+
 app.post("/delete", async (req, res) => {
   await User.deleteOne({ username: req.session.username });
 
