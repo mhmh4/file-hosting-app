@@ -65,20 +65,20 @@ app.get("/register", async (req, res) => {
 });
 
 app.post("/register", async (req, res) => {
-  let tmp = await User.findOne({ username: req.body.username });
-  if (tmp) {
+  const user = await User.findOne({ username: req.body.username });
+  if (user) {
     req.flash("info", "Username is already taken");
     res.redirect("register");
     return;
   }
 
-  const user = new User({
+  let newUser = new User({
     username: req.body.username,
     password: req.body.password,
   });
 
   try {
-    await user.save();
+    await newUser.save();
   } catch {
     res.status(500);
   }
@@ -86,18 +86,18 @@ app.post("/register", async (req, res) => {
   res.redirect("login");
 });
 
-const myDirectory = (username) => {
-  return `${__dirname}/uploads/${username}`;
-};
+function getUploadPath(username) {
+  return `${__dirname}/uploads/${username}/`;
+}
 
-const createDirectoryIfNotExists = (directoryPath) => {
+function createDirectoryIfNotExists(directoryPath) {
   if (!fs.existsSync(directoryPath)) {
     fs.mkdirSync(directoryPath);
   }
-};
+}
 
 app.get("/home", async (req, res) => {
-  createDirectoryIfNotExists(myDirectory(req.session.username));
+  createDirectoryIfNotExists(getUploadPath(req.session.username));
   let user = await User.findOne({ username: req.session.username });
   if (!user) {
     res.redirect("login");
@@ -113,7 +113,7 @@ app.post("/upload", async (req, res) => {
   }
 
   let file = req.files.file;
-  let uploadPath = myDirectory(req.session.username) + "/" + file.name;
+  let uploadPath = getUploadPath(req.session.username) + file.name;
 
   file.mv(uploadPath, (error) => {
     if (error) {
@@ -135,13 +135,13 @@ app.post("/upload", async (req, res) => {
 
 app.post("/download", async (req, res) => {
   let file = req.body.file;
-  res.download(myDirectory(req.session.username) + "/" + file);
+  res.download(getUploadPath(req.session.username) + file);
 });
 
 app.post("/remove", async (req, res) => {
   let file = req.body.file;
 
-  fs.unlink(myDirectory(req.session.username) + "/" + file, (err) => {
+  fs.unlink(getUploadPath(req.session.username) + file, (err) => {
     if (err) throw err;
   });
 
@@ -165,7 +165,7 @@ app.post("/delete", async (req, res) => {
   await User.deleteOne({ username: req.session.username });
 
   fs.rmdir(
-    myDirectory(req.session.username),
+    getUploadPath(req.session.username),
     { recursive: true, force: true },
     (err) => {
       if (err) {
