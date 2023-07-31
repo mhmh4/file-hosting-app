@@ -1,21 +1,20 @@
-const crypto = require("crypto");
-const fs = require("fs");
-const path = require("path");
+import crypto from "crypto";
+import fs from "fs";
+import path from "path";
 
-const express = require("express");
-const flash = require("express-flash");
-const fileUpload = require("express-fileupload");
-const mongoose = require("mongoose");
-const nunjucks = require("nunjucks");
-const session = require("express-session");
+import express from "express";
+import fileUpload from "express-fileupload";
+import flash from "express-flash";
+import session from "express-session";
+import mongoose from "mongoose";
+import nunjucks from "nunjucks";
 
-const User = require("./models/user");
+import { User } from "./models/user.js";
 
 const app = express();
 const port = 3000;
 
 mongoose.connect("mongodb://127.0.0.1:27017/fhsp");
-
 nunjucks.configure("views", { express: app, watch: true });
 
 app.use(express.urlencoded({ extended: true }));
