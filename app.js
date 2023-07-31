@@ -187,11 +187,16 @@ app.post("/copy", async (req, res) => {
   });
 
   await User.findOne({ username: req.session.username }).then((user) => {
+    const size = user.files.find((f) => {
+      return f.name == file;
+    }).size;
+
     user.files.push({
       name: filename,
       created_at: new Date().toUTCString(),
-      size: file.size,
+      size: size,
     });
+
     user.save();
   });
 
