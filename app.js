@@ -8,6 +8,7 @@ import fileUpload from "express-fileupload";
 import flash from "express-flash";
 import session from "express-session";
 import mongoose from "mongoose";
+import nocache from "nocache";
 import nunjucks from "nunjucks";
 
 import { User } from "./models/user.js";
@@ -24,6 +25,7 @@ nunjucks.configure("views", { express: app, watch: true });
 app.use(express.urlencoded({ extended: true }));
 app.use(fileUpload());
 app.use(flash());
+app.use(nocache());
 app.use(
   session({
     secret: crypto.randomBytes(64).toString("hex"),
@@ -31,11 +33,6 @@ app.use(
     saveUninitialized: true,
   })
 );
-
-app.use((req, res, next) => {
-  res.set("Cache-Control", "no-store");
-  next();
-});
 
 app.get("/", (req, res) => {
   res.redirect("login");
