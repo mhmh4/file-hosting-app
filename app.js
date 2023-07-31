@@ -1,6 +1,7 @@
 import crypto from "crypto";
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
 
 import express from "express";
 import fileUpload from "express-fileupload";
@@ -10,6 +11,9 @@ import mongoose from "mongoose";
 import nunjucks from "nunjucks";
 
 import { User } from "./models/user.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const port = 3000;
