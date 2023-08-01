@@ -35,8 +35,8 @@
         <p class="invisible">...</p>
       </div>
       {% endif %}
-      <div class="flex my-2">
-        <div>
+      <div class="flex my-2 bg-slate-100 p-2 rounded-xl border">
+        <div class="py-2 bg-white flex-1 border mx-1">
           <form
             method="post"
             action="upload"
@@ -44,15 +44,15 @@
             enctype="multipart/form-data"
           >
             <input type="file" name="file" onchange="form.submit()" />
-            <input
+            <!-- <input
               type="submit"
               value="Upload"
               class="bg-[#517ad5] hover:bg-[#517ad5dd] text-white px-3 py-1 rounded hover:cursor-pointer"
-            />
+            /> -->
           </form>
         </div>
-        <div class="">
-          <!-- <p class="mx-auto">Storage used: {{ storage }} MB / 100 MB</p> -->
+        <div class="bg-white flex-1 border mx-1">
+          <p class="mx-auto">Storage used: {{ storage }} MB / 100 MB</p>
         </div>
       </div>
       <div class="border rounded-xl min-h-12 bg-slate-100 p-3.5">
