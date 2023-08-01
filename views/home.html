@@ -13,60 +13,62 @@
       </div>
       <div class="flex">
         <div>
-          <a href="/home">Home</a>
+          <a class="hover:text-slate-300" href="/home">Home</a>
         </div>
         <div class="mx-6">
-          <a href="settings">Settings</a>
+          <a class="hover:text-slate-300" href="settings">Settings</a>
         </div>
         <div>
           <form method="post" action="/logout">
-            <input class="cursor-pointer" type="submit" value="Logout" />
+            <input class="cursor-pointer hover:text-slate-300" type="submit" value="Logout" />
           </form>
         </div>
       </div>
     </header>
     <div class="px-12 min-h-screen w-4/5 bg-white mx-auto border pb-6">
-      <div class="border">
-        <div>stats</div>
-        <div class="flex items-center border mx-2">
-          <div class="">Number of files: {{ files.length }}</div>
+      {% if messages.info %}
+      <div class="my-1 bg-blue-100">
+          <p>{{ messages.info }}</p>
+        </div>
+      {% else %}
+      <div class="my-1">
+        <p class="invisible">...</p>
+      </div>
+      {% endif %}
+      <div class="flex border my-2">
+        <div>
+          <form
+            method="post"
+            action="upload"
+            class="my-2 bg-white border rounded"
+            enctype="multipart/form-data"
+          >
+            <input type="file" name="file" />
+            <input
+              type="submit"
+              value="Upload"
+              class="bg-[#517ad5] hover:bg-[#517ad5dd] text-white px-3 py-1 rounded hover:cursor-pointer"
+            />
+          </form>
+        </div>
+        <div>
           <div>Storage used: {{ storage }} MB / 100 MB</div>
         </div>
       </div>
-      <div class="my-2 border">
-        {% if messages.info %}
-        <p>{{ messages.info }}</p>
-        {% else %}
-        <p class="invisible">...</p>
-        {% endif %}
-      </div>
-      <form
-        method="post"
-        action="upload"
-        class="my-3 py-3 bg-white border rounded"
-        enctype="multipart/form-data"
-      >
-        <input type="file" name="file" />
-        <input
-          type="submit"
-          value="Upload"
-          class="bg-cyan-800 text-white px-3 py-1 rounded hover:cursor-pointer"
-        />
-      </form>
       <div class="border rounded-xl min-h-12 bg-slate-100 p-2 py-1">
-        <table class="bg-white">
+        <table class="bg-white table-auto w-full border border-slate-400">
           <thead>
             <tr>
               <th></th>
-              <th>Name</th>
-              <th>Date created</th>
-              <th>Fize size</th>
+              <th class="text-left">Name</th>
+              <th class="text-left">Date created</th>
+              <th class="text-left">File size</th>
             </tr>
             <tbody>
               {% for file in files %}
-              <tr class="border my-4">
+              <tr class="border my-4 hover:bg-slate-50">
                 <td>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mt-3 mx-auto align-middle text-slate-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 mx-auto align-middle text-slate-300 border">
                     {% if (file.name.endsWith("png") or file.name.endsWith("jpg") or file.name.endsWith("jpeg")) %}
                       <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z">
                     {% elif file.name.endsWith("mp4") or file.name.endsWith("mkv") %}
@@ -89,7 +91,7 @@
                   {{ file.created_at }}
                 </td>
                 <td>
-                  {{ file.size }} bytes
+                  {{ file.size }} B
                 </td>
                 <td>
                   <form method="post" action="download">
@@ -97,7 +99,7 @@
                       name="file"
                       value="{{ file.name }}"
                       type="submit"
-                      class="bg-slate-200 hover:bg-slate-300 text-center rounded"
+                      class="bg-[#4d5c68] text-white w-20 hover:bg-[#4d5c68cc] rounded"
                     >
                     Download
                     </button>
@@ -109,7 +111,7 @@
                       name="file"
                       value="{{ file.name }}"
                       type="submit"
-                      class="bg-slate-200 w-10 hover:bg-slate-300 rounded"
+                      class="bg-[#4d5c68] text-white w-20 hover:bg-[#4d5c68cc] rounded"
                     >
                     Copy
                     </button>
@@ -121,7 +123,7 @@
                       name="file"
                       value="{{ file.name }}"
                       type="submit"
-                      class="bg-slate-200 w-10 hover:bg-slate-300 rounded"
+                      class="bg-[#4d5c68] text-white w-20 hover:bg-[#4d5c68cc] rounded"
                     >
                     Delete
                     </button>
