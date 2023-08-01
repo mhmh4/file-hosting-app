@@ -53,52 +53,67 @@
           class="bg-cyan-800 text-white px-3 py-1 rounded hover:cursor-pointer"
         />
       </form>
-      <div class="border rounded-xl min-h-12 grid grid-cols-4 bg-slate-100 p-2 py-1">
-        {% for file in files %}
-        <div class="my-2 mx-2 rounded-xl border flex flex-col bg-white">
-          <div class="overflow-hidden truncate">{{ file.name }}</div>
-          <small> {{ file.size }} bytes </small>
-          <small> {{ file.created_at }} </small>
-          <div class="flex my-1">
-            <div class="mx-auto">
-              <form method="post" action="download">
-                <button
-                  name="file"
-                  value="{{ file.name }}"
-                  type="submit"
-                  class="bg-slate-200 hover:bg-slate-300 text-center rounded"
-                >
-                Download
-                </button>
-              </form>
-            </div>
-            <div class="mx-auto">
-              <form method="post" action="remove">
-                <button
-                  name="file"
-                  value="{{ file.name }}"
-                  type="submit"
-                  class="bg-slate-200 w-10 hover:bg-slate-300 rounded"
-                >
-                Delete
-                </button>
-              </form>
-            </div>
-            <div class="mx-auto">
-              <form method="post" action="copy">
-                <button
-                  name="file"
-                  value="{{ file.name }}"
-                  type="submit"
-                  class="bg-slate-200 w-10 hover:bg-slate-300 rounded"
-                >
-                Copy
-                </button>
-              </form>
-            </div>
-          </div>
-        </div>
-        {% endfor %}
+      <div class="border rounded-xl min-h-12 bg-slate-100 p-2 py-1">
+        <table class="bg-white">
+          <thead>
+            <tr>
+              <th>name</th>
+              <th>date uploaded</th>
+              <th>bytes</th>
+            </tr>
+            <tbody>
+              {% for file in files %}
+              <tr>
+                <td>
+                  {{ file.name }}
+                </td>
+                <td>
+                  {{ file.created_at }}
+                </td>
+                <td>
+                  {{ file.size }} bytes
+                </td>
+                <td>
+                  <form method="post" action="download">
+                    <button
+                      name="file"
+                      value="{{ file.name }}"
+                      type="submit"
+                      class="bg-slate-200 hover:bg-slate-300 text-center rounded"
+                    >
+                    Download
+                    </button>
+                  </form>
+                </td>
+                <td>
+                  <form method="post" action="copy">
+                    <button
+                      name="file"
+                      value="{{ file.name }}"
+                      type="submit"
+                      class="bg-slate-200 w-10 hover:bg-slate-300 rounded"
+                    >
+                    Copy
+                    </button>
+                  </form>
+                </td>
+                <td>
+                  <form method="post" action="remove">
+                    <button
+                      name="file"
+                      value="{{ file.name }}"
+                      type="submit"
+                      class="bg-slate-200 w-10 hover:bg-slate-300 rounded"
+                    >
+                    Delete
+                    </button>
+                  </form>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </thead>
+        </table>
       </div>
     </div>
   </body>
