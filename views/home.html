@@ -35,15 +35,15 @@
         <p class="invisible">...</p>
       </div>
       {% endif %}
-      <div class="flex border my-2">
+      <div class="flex my-2">
         <div>
           <form
             method="post"
             action="upload"
-            class="my-2 bg-white border rounded overflow-hidden truncate max-w-48"
+            class="my-2 bg-white  rounded overflow-hidden truncate max-w-48"
             enctype="multipart/form-data"
           >
-            <input type="file" name="file" />
+            <input type="file" name="file" onchange="form.submit()" />
             <input
               type="submit"
               value="Upload"
@@ -51,8 +51,8 @@
             />
           </form>
         </div>
-        <div>
-          <div class="">Storage used: {{ storage }} MB / 100 MB</div>
+        <div class="">
+          <!-- <p class="mx-auto">Storage used: {{ storage }} MB / 100 MB</p> -->
         </div>
       </div>
       <div class="border rounded-xl min-h-12 bg-slate-100 p-3.5">
@@ -66,9 +66,9 @@
             </tr>
             <tbody class="text-sm">
               {% for file in files %}
-              <tr class="border my-4 hover:bg-slate-50 border-slate-300">
-                <td>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-9 h-9 p-1 mx-auto align-middle text-slate-300">
+              <tr class="border my-4 hover:bg-slate-50 border-slate-300 h-12">
+                <td class="w-[5em]">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-9 h-9 p-1 mx-auto align-middle text-slate-400 border bg-blue-50 border-blue-100 rounded-md">
                     {% if (file.name.endsWith("png") or file.name.endsWith("jpg") or file.name.endsWith("jpeg")) %}
                       <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z">
                     {% elif file.name.endsWith("mp4") or file.name.endsWith("mkv") %}
