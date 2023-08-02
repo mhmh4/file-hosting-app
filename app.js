@@ -57,23 +57,29 @@ app.get("/login", (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
-  const user = await User.findOne({ username: req.body.username });
-  if (!user) {
-    req.flash("info", "Invalid username or password");
-    res.redirect("login");
-    return;
-  }
   try {
+    const user = await User.findOne({ username: req.body.username });
+    if (!user) {
+      req.flash("info", "Invalid username or password");
+      res.redirect("login");
+      return;
+    }
+
     if (req.body.password === user.password) {
       req.session.username = user.username;
-      res.redirect("home");
     } else {
       req.flash("info", "Invalid username or password");
       res.redirect("login");
+      return;
     }
   } catch {
-    res.status(500).send();
+    req.flash("info", "Error: Login failed. Please try again.");
+    res.redirect("login");
+    return;
   }
+
+  res.redirect("home");
+  return;
 });
 
 app.get("/register", async (req, res) => {
