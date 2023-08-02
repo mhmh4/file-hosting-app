@@ -88,25 +88,22 @@ app.get("/register", async (req, res) => {
 
 app.post("/register", async (req, res) => {
   try {
-    const user = await User.findOne({ username: req.body.username });
-    if (user) {
+    const existingUser = await User.findOne({ username: req.body.username });
+    if (existingUser) {
       req.flash("info", "Username is already taken");
-      res.redirect("register");
-      return;
+    } else {
+      const newUser = new User({
+        username: req.body.username,
+        password: req.body.password,
+      });
+      await newUser.save();
+      req.flash("info", "Account created. You may now sign in.");
+      return res.redirect("login");
     }
-    const newUser = new User({
-      username: req.body.username,
-      password: req.body.password,
-    });
-    await newUser.save();
   } catch {
     req.flash("info", "Error: Registration failed. Please try again.");
-    res.redirect("register");
-    return;
   }
-
-  req.flash("info", "Account created. You may now sign in.");
-  res.redirect("login");
+  res.redirect("register");
 });
 
 app.get("/home", async (req, res) => {
