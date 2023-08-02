@@ -34,6 +34,20 @@ app.use(
   })
 );
 
+function getUploadDirectory(username) {
+  return `${__dirname}/uploads/${username}/`;
+}
+
+function getUploadPath(username, fileName) {
+  return getUploadDirectory(username) + fileName;
+}
+
+function createDirectoryIfNotExists(directoryPath) {
+  if (!fs.existsSync(directoryPath)) {
+    fs.mkdirSync(directoryPath);
+  }
+}
+
 app.get("/", (req, res) => {
   res.redirect("login");
 });
@@ -67,40 +81,27 @@ app.get("/register", async (req, res) => {
 });
 
 app.post("/register", async (req, res) => {
-  const user = await User.findOne({ username: req.body.username });
-  if (user) {
-    req.flash("info", "Username is already taken");
+  try {
+    const user = await User.findOne({ username: req.body.username });
+    if (user) {
+      req.flash("info", "Username is already taken");
+      res.redirect("register");
+      return;
+    }
+    const newUser = new User({
+      username: req.body.username,
+      password: req.body.password,
+    });
+    await newUser.save();
+  } catch {
+    req.flash("info", "Error: Registration failed. Please try again.");
     res.redirect("register");
     return;
   }
 
-  let newUser = new User({
-    username: req.body.username,
-    password: req.body.password,
-  });
-
-  try {
-    await newUser.save();
-  } catch {
-    res.status(500);
-  }
-
+  req.flash("info", "Account created. You may now sign in.");
   res.redirect("login");
 });
-
-function getUploadDirectory(username) {
-  return `${__dirname}/uploads/${username}/`;
-}
-
-function getUploadPath(username, fileName) {
-  return getUploadDirectory(username) + fileName;
-}
-
-function createDirectoryIfNotExists(directoryPath) {
-  if (!fs.existsSync(directoryPath)) {
-    fs.mkdirSync(directoryPath);
-  }
-}
 
 app.get("/home", async (req, res) => {
   createDirectoryIfNotExists(getUploadDirectory(req.session.username));
