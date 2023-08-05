@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
   </head>
   <body class="bg-secondary">
-    <header class="navbar bg-light mx-auto col-10">
+    <header class="navbar bg-dark text-white mx-auto col-10">
       <div class="d-flex">
         <div class="flex-grow-1">
           <span>FHSP</span>
@@ -28,7 +28,7 @@
     </header>
     <div class="px-12 min-h-screen w-4/5 bg-white mx-auto border pb-6 col-10">
       {% if messages.info %}
-      <div class="my-1 bg-blue-100">
+        <div class="my-1 bg-blue-100">
           <p>{{ messages.info }}</p>
         </div>
       {% else %}
@@ -36,20 +36,21 @@
         <p class="invisible">...</p>
       </div>
       {% endif %}
-      <div class="flex my-2 bg-slate-100 p-2 rounded-xl border">
-        <div class="py-2 bg-white flex-1 border mx-1">
+      <div class="d-flex my-2 p-2 rounded border">
+        <div class="py-2 bg-white flex-grow-1 border mx-1">
           <form
             method="post"
             action="upload"
-            class="my-2 bg-white  rounded overflow-hidden truncate max-w-48"
             enctype="multipart/form-data"
+            class="my-2"
           >
-            <input type="file" name="file" onchange="form.submit()">
-            <!-- <input
+            <!-- <input type="file" name="file" onchange="form.submit()"> -->
+            <input type="file" name="file">
+            <input
               type="submit"
               value="Upload"
-              class="bg-[#517ad5] hover:bg-[#517ad5dd] text-white px-3 py-1 rounded hover:cursor-pointer"
-            > -->
+              class="btn btn-primary rounded"
+            >
           </form>
         </div>
         <div class="bg-white flex-1 border mx-1">
@@ -61,15 +62,15 @@
           <thead>
             <tr class="rounded">
               <th></th>
-              <th class="text-left">Name</th>
-              <th class="text-left">Date created</th>
-              <th class="text-left">File size</th>
+              <th class="">Name</th>
+              <th class="">Date created</th>
+              <th class="">File size</th>
             </tr>
-            <tbody class="text-sm">
+            <tbody class="">
               {% for file in files %}
-              <tr class="border my-4 hover:bg-slate-50 border-slate-300 h-12">
-                <td class="w-[5em]">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-9 h-9 p-1 mx-auto align-middle text-slate-400 border bg-blue-50 border-blue-100 rounded-md">
+              <tr class="border">
+                <td>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-9 h-9 p-1 mx-auto align-middle border rounded">
                     {% if (file.name.endsWith("png") or file.name.endsWith("jpg") or file.name.endsWith("jpeg")) %}
                       <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z">
                     {% elif file.name.endsWith("mp4") or file.name.endsWith("mkv") %}
@@ -85,7 +86,7 @@
                     {% endif %}
                   </svg>
                 </td>
-                <td class="overflow-hidden truncate">
+                <td class="">
                   {{ file.name }}
                 </td>
                 <td class="text-slate-400">
@@ -96,37 +97,22 @@
                 </td>
                 <td>
                   <form method="post" action="download">
-                    <button
-                      name="file"
-                      value="{{ file.name }}"
-                      type="submit"
-                      class="bg-[#4d5c68] text-white w-20 py-1 hover:bg-[#4d5c68cc] rounded"
-                    >
-                    Download
+                    <button name="file" value="{{ file.name }}" type="submit" class="btn btn-outline-primary">
+                      Download
                     </button>
                   </form>
                 </td>
                 <td>
                   <form method="post" action="copy">
-                    <button
-                      name="file"
-                      value="{{ file.name }}"
-                      type="submit"
-                      class="bg-[#4d5c68] text-white w-20 py-1 hover:bg-[#4d5c68cc] rounded"
-                    >
-                    Copy
+                    <button name="file" value="{{ file.name }}" type="submit" class="btn btn-secondary">
+                      Copy
                     </button>
                   </form>
                 </td>
                 <td>
                   <form method="post" action="remove">
-                    <button
-                      name="file"
-                      value="{{ file.name }}"
-                      type="submit"
-                      class="bg-[#4d5c68] text-white w-20 py-1 hover:bg-[#4d5c68cc] rounded"
-                    >
-                    Delete
+                    <button name="file" value="{{ file.name }}" type="submit" class="btn btn-outline-secondary">
+                      Delete
                     </button>
                   </form>
                 </td>
