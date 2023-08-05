@@ -1,9 +1,11 @@
 import crypto from "crypto";
 import fs from "fs";
+import os from "os";
 import path from "path";
 import { fileURLToPath } from "url";
 
-import express from "express";
+import AdmZip from "adm-zip";
+import express, { response } from "express";
 import fileUpload from "express-fileupload";
 import flash from "express-flash";
 import session from "express-session";
@@ -42,10 +44,8 @@ function getUploadPath(username, fileName) {
   return getUploadDirectory(username) + fileName;
 }
 
-function createDirectoryIfNotExists(directoryPath) {
-  if (!fs.existsSync(directoryPath)) {
-    fs.mkdirSync(directoryPath);
-  }
+function createDirectoryIfNotExists(path) {
+  !fs.existsSync(path) && fs.mkdirSync(path);
 }
 
 app.get("/", (req, res) => {
@@ -243,6 +243,25 @@ app.post("/delete_all_files", async (req, res) => {
 
   req.flash("info", "All files deleted.");
   res.redirect("home");
+});
+
+app.post("/export", async (req, res) => {
+  const zip = new AdmZip();
+  const tmpdir = os.tmpdir();
+
+  const directory = getUploadDirectory(req.session.username);
+  fs.readdirSync(directory).forEach((f) => {
+    zip.addLocalFile(`${directory}/${f}`);
+  });
+
+  const buf = zip.toBuffer();
+
+  res.set({
+    "Content-Type": "application/zip",
+    "Content-Disposition": "attachment; filename=exported_files.zip",
+  });
+
+  return res.send(buf);
 });
 
 app.post("/delete", async (req, res) => {
