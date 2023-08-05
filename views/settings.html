@@ -32,19 +32,10 @@
       </div>
     </nav>
     <div class="min-vh-100 bg-white border px-4">
-      {% if messages.info %}
-        <div class="my-1 bg-blue-100">
-          <p>{{ messages.info }}</p>
-        </div>
-      {% else %}
-        <div class="my-1">
-          <p class="select-none">&nbsp;</p>
-        </div>
-      {% endif %}
       <div class="px-12 h-screen w-4/5 bg-white mx-auto border">
         <p>Settings</p>
         <hr>
-        <form class="my-2" method="get" action="#">
+        <form class="my-2" method="post" action="/export">
           <input class="border bg-blue-200 cursor-pointer" type="submit" value="Export all files">
         </form>
         <hr>
