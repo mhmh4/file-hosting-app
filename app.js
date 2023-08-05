@@ -2,10 +2,9 @@ import crypto from "crypto";
 import fs from "fs";
 import os from "os";
 import path from "path";
-import { fileURLToPath } from "url";
 
 import AdmZip from "adm-zip";
-import express, { response } from "express";
+import express from "express";
 import fileUpload from "express-fileupload";
 import flash from "express-flash";
 import session from "express-session";
@@ -14,9 +13,7 @@ import nocache from "nocache";
 import nunjucks from "nunjucks";
 
 import User from "./models/user.js";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import { createDirectory, getUploadDirectory, getUploadPath } from "./utils.js";
 
 const app = express();
 const port = 3000;
@@ -35,18 +32,6 @@ app.use(
     saveUninitialized: true,
   })
 );
-
-function getUploadDirectory(username) {
-  return `${__dirname}/uploads/${username}/`;
-}
-
-function getUploadPath(username, fileName) {
-  return getUploadDirectory(username) + fileName;
-}
-
-function createDirectoryIfNotExists(path) {
-  !fs.existsSync(path) && fs.mkdirSync(path);
-}
 
 app.get("/", (req, res) => {
   res.redirect("login");
@@ -107,7 +92,7 @@ app.post("/register", async (req, res) => {
 });
 
 app.get("/home", async (req, res) => {
-  createDirectoryIfNotExists(getUploadDirectory(req.session.username));
+  createDirectory(getUploadDirectory(req.session.username));
   let user = await User.findOne({ username: req.session.username });
   if (!user) {
     res.redirect("login");
