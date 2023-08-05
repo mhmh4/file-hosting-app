@@ -32,20 +32,19 @@
       </div>
     </nav>
     <div class="min-vh-100 bg-white border px-4">
-      <div class="px-12 h-screen w-4/5 bg-white mx-auto border">
-        <p>Settings</p>
-        <hr>
-        <form class="my-2" method="post" action="/export">
-          <input class="border bg-blue-200 cursor-pointer" type="submit" value="Export all files">
-        </form>
-        <hr>
-        <form class="my-2" method="post" action="delete_all_files">
-          <input class="border bg-red-200 cursor-pointer" type="submit" value="Delete all files">
-        </form>
-        <hr>
-        <form class="my-2" method="post" action="delete">
-          <input class="border bg-red-600 text-white cursor-pointer" type="submit" value="Delete account">
-        </form>
+      <div class="bg-white mx-auto">
+        <h4 class="my-2">Settings</h4>
+        <div class="my-3">
+          <form class="my-2" method="post" action="/export">
+            <input class="btn btn-light border w-25" type="submit" value="Export all files">
+          </form>
+          <form class="my-2" method="post" action="delete_all_files">
+            <input class="btn btn-light border w-25 " type="submit" value="Delete all files">
+          </form>
+          <form class="my-2" method="post" action="delete">
+            <input class="btn btn-light border w-25" type="submit" value="Delete account">
+          </form>
+      </div>
       </div>
       </div>
     </div>
