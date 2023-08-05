@@ -1,31 +1,32 @@
 <!doctype html>
 <html>
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>FHSP - Home</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
   </head>
-  <body class="bg-[#232f3b]">
-    <header class="flex bg-[#2e3a46] text-white mx-auto w-4/5 py-2.5 px-24">
-      <div class="grow">
-        <h1>FHSP</h1>
-      </div>
-      <div class="flex">
-        <div>
-          <a class="hover:text-slate-300" href="/home">Home</a>
+  <body class="bg-secondary">
+    <header class="navbar bg-light mx-auto col-10">
+      <div class="d-flex">
+        <div class="flex-grow-1">
+          <span>FHSP</span>
         </div>
-        <div class="mx-6">
-          <a class="hover:text-slate-300" href="settings">Settings</a>
+        <div>
+          <a class="" href="/home">Home</a>
+        </div>
+        <div class="">
+          <a class="" href="settings">Settings</a>
         </div>
         <div>
           <form method="post" action="/logout">
-            <input class="cursor-pointer hover:text-slate-300" type="submit" value="Logout" />
+            <input class="" type="submit" value="Logout">
           </form>
         </div>
       </div>
     </header>
-    <div class="px-12 min-h-screen w-4/5 bg-white mx-auto border pb-6">
+    <div class="px-12 min-h-screen w-4/5 bg-white mx-auto border pb-6 col-10">
       {% if messages.info %}
       <div class="my-1 bg-blue-100">
           <p>{{ messages.info }}</p>
@@ -43,12 +44,12 @@
             class="my-2 bg-white  rounded overflow-hidden truncate max-w-48"
             enctype="multipart/form-data"
           >
-            <input type="file" name="file" onchange="form.submit()" />
+            <input type="file" name="file" onchange="form.submit()">
             <!-- <input
               type="submit"
               value="Upload"
               class="bg-[#517ad5] hover:bg-[#517ad5dd] text-white px-3 py-1 rounded hover:cursor-pointer"
-            /> -->
+            > -->
           </form>
         </div>
         <div class="bg-white flex-1 border mx-1">
@@ -136,5 +137,6 @@
         </table>
       </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
