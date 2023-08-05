@@ -9,8 +9,8 @@ export function getUploadDirectory(username) {
   return `${__dirname}/uploads/${username}/`;
 }
 
-export function getUploadPath(username, fileName) {
-  return getUploadDirectory(username) + fileName;
+export function getUploadPath(username, filename) {
+  return getUploadDirectory(username) + filename;
 }
 
 export function createDirectory(path) {
