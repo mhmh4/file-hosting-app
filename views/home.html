@@ -4,47 +4,74 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>FHSP - Home</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+    >
   </head>
   <body class="bg-secondary">
-    <header class="navbar bg-dark text-white py-1">
+    <!-- <header class="navbar bg-dark text-white py-1">
       <div class="d-flex">
-        <div class="flex-grow-1">
+        <div class="flex-grow-1 my-1">
           <span>FHSP</span>
         </div>
-        <div>
-          <a href="/home">Home</a>
+        <div class="my-1">
+          <a class="link-info text-sm" href="/home">Home</a>
         </div>
-        <div>
-          <a href="settings">Settings</a>
+        <div class="my-1">
+          <a class="link-info" href="settings">Settings</a>
         </div>
         <div>
           <form method="post" action="/logout">
-            <input class="" type="submit" value="Logout">
+            <input class="link-info btn btn-sm" type="submit" value="Logout">
           </form>
         </div>
       </div>
-    </header>
+    </header> -->
+    <nav class="navbar navbar-expand-lg bg-primary">
+      <div class="container-fluid px-4">
+        <span class="navbar-brand text-white" href="#">FHSP</span>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item mx-2">
+              <a class="nav-link link-light" href="/home">Home</a>
+            </li>
+            <li class="nav-item mx-2">
+              <a class="nav-link link-light" href="/settings">Settings</a>
+            </li>
+          </ul>
+          <form class="d-flex" role="search" method="post" action="/logout">
+            <input class="btn btn-light py-1" type="submit" value="Logout">
+          </form>
+        </div>
+      </div>
+    </nav>
     <div class="min-vh-100 bg-white border px-4">
       {% if messages.info %}
         <div class="my-1 bg-blue-100">
           <p>{{ messages.info }}</p>
         </div>
+      {% else %}
+        <div class="my-1">
+          <p class="select-none">&nbsp;</p>
+        </div>
       {% endif %}
       <div class="d-flex my-2 p-1 py-2 rounded border">
-        <div class="py-2 bg-white flex-grow-1 border mx-1">
+        <div class="bg-white flex-grow-1 border mx-1">
           <form
             method="post"
             action="upload"
             enctype="multipart/form-data"
             class="my-2"
           >
-            <!-- <input type="file" name="file" onchange="form.submit()"> -->
             <input type="file" name="file">
             <input
               type="submit"
               value="Upload"
-              class="btn btn-primary rounded"
+              class="btn btn-outline-primary rounded px-4 py-1"
             >
           </form>
         </div>
@@ -52,20 +79,22 @@
           <p class="mx-auto">Storage used: {{ storage }} MB / 100 MB</p>
         </div>
       </div>
-      <div class="border p-1">
-        <table class="bg-white border table table-sm table-hover">
+      <div class="border p-1 rounded mb-3">
+        <table class="bg-white border table-responsive table table-sm table-hover">
           <thead class="">
             <tr class="border">
               <!-- <th class="col-1"></th> -->
-              <th class="col-5 text-truncate">Name</th>
-              <th class="col-3">Date created</th>
+              <th class="col-3 text-truncate">Name</th>
+              <th class="col-4">Date created</th>
               <th class="col-1">File size</th>
-              <th class="col-3"></th>
+              <th class="col-4"></th>
             </tr>
-            <tbody>
-              {% for file in files %}
-              <tr class="border">
-                <!-- <td>
+          </thead>
+
+          <tbody>
+            {% for file in files %}
+            <tr class="border">
+              <!-- <td>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-25">
                     {% if (file.name.endsWith("png") or file.name.endsWith("jpg") or file.name.endsWith("jpeg")) %}
                       <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z">
@@ -82,36 +111,44 @@
                     {% endif %}
                   </svg>
                 </td> -->
-                <td class="text-truncate">
-                  {{ file.name }}
-                </td>
-                <td class="text-secondary">
-                  {{ file.created_at }}
-                </td>
-                <td>
-                  {{ file.size }} B
-                </td>
-                <td class="">
-                  <form method="post" action="download" class="d-inline mx-1">
-                    <button name="file" value="{{ file.name }}" type="submit" class="btn btn-outline-primary py-1">
-                      <small>Download</small>
-                    </button>
-                  </form>
-                  <form method="post" action="copy" class="d-inline mx-1">
-                    <button name="file" value="{{ file.name }}" type="submit" class="btn btn-outline-primary py-1">
-                      <small>Copy</small>
-                    </button>
-                  </form>
-                  <form method="post" action="remove" class="d-inline mx-1">
-                    <button name="file" value="{{ file.name }}" type="submit" class="btn btn-outline-primary py-1">
-                      <small>Remove</small>
-                    </button>
-                  </form>
-                </td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </thead>
+              <td class="text-truncate">{{ file.name }}</td>
+              <td class="text-secondary">{{ file.created_at }}</td>
+              <td>{{ file.size }} B</td>
+              <td class="text-center">
+                <form method="post" action="download" class="d-inline mx-1">
+                  <button
+                    name="file"
+                    value="{{ file.name }}"
+                    type="submit"
+                    class="btn btn-outline-primary py-1"
+                  >
+                    <small>Download</small>
+                  </button>
+                </form>
+                <form method="post" action="copy" class="d-inline mx-1">
+                  <button
+                    name="file"
+                    value="{{ file.name }}"
+                    type="submit"
+                    class="btn btn-outline-primary py-1"
+                  >
+                    <small>Copy</small>
+                  </button>
+                </form>
+                <form method="post" action="remove" class="d-inline mx-1">
+                  <button
+                    name="file"
+                    value="{{ file.name }}"
+                    type="submit"
+                    class="btn btn-outline-primary py-1"
+                  >
+                    <small>Remove</small>
+                  </button>
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
         </table>
       </div>
     </div>
