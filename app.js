@@ -13,7 +13,7 @@ import mongoose from "mongoose";
 import nocache from "nocache";
 import nunjucks from "nunjucks";
 
-import { User } from "./models/user.js";
+import User from "./models/user.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
