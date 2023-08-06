@@ -127,15 +127,6 @@ app.post("/upload", async (req, res) => {
     0
   );
 
-  if (storageUsed + file.size > 100000000) {
-    req.flash(
-      "info",
-      `Error: Uploading "${file.name}" exceeds the storage limit.`
-    );
-    res.redirect("home");
-    return;
-  }
-
   file.mv(uploadPath, (error) => {
     if (error) {
       return res.status(500).send("error");
