@@ -14,12 +14,12 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   createDirectory(getUploadDirectory(req.session.username));
-  let user = await User.findOne({ username: req.session.username });
+  const user = await User.findOne({ username: req.session.username });
   if (!user) {
     res.redirect("/login");
     return;
   }
-  let files = user.files || [];
+  const files = user.files || [];
   let storage = 0;
   for (const f of files) {
     storage += f.size;
@@ -34,8 +34,8 @@ router.post("/upload", async (req, res) => {
     return res.status(400).send("No files were uploaded.");
   }
 
-  let file = req.files.file;
-  let uploadPath = getUploadPath(req.session.username, file.name);
+  const file = req.files.file;
+  const uploadPath = getUploadPath(req.session.username, file.name);
 
   file.mv(uploadPath, (error) => {
     if (error) {
@@ -57,14 +57,14 @@ router.post("/upload", async (req, res) => {
 });
 
 router.post("/download", async (req, res) => {
-  let file = req.body.file;
+  const file = req.body.file;
   res.download(getUploadPath(req.session.username, file));
 });
 
 router.post("/copy", async (req, res) => {
-  let file = req.body.file;
+  const file = req.body.file;
 
-  let filename = path.parse(file).name;
+  const filename = path.parse(file).name;
   filename = filename + ".copy" + path.extname(file);
 
   const src = getUploadPath(req.session.username, file);
@@ -95,7 +95,7 @@ router.post("/copy", async (req, res) => {
 });
 
 router.post("/remove", async (req, res) => {
-  let file = req.body.file;
+  const file = req.body.file;
 
   fs.unlink(getUploadPath(req.session.username, file), (err) => {
     if (err) throw err;
