@@ -8,6 +8,10 @@ import mongoose from "mongoose";
 import nocache from "nocache";
 import nunjucks from "nunjucks";
 
+import authRoutes from "./routes/auth.js";
+import homeRoutes from "./routes/home.js";
+import settingsRoutes from "./routes/settings.js";
+
 const app = express();
 const port = 3000;
 
@@ -25,10 +29,6 @@ app.use(
     saveUninitialized: true,
   })
 );
-
-import authRoutes from "./routes/auth.js";
-import homeRoutes from "./routes/home.js";
-import settingsRoutes from "./routes/settings.js";
 
 app.use("/", authRoutes);
 app.use("/home", homeRoutes);
