@@ -33,16 +33,16 @@
       {% endif %}
       <div class="d-flex my-2 p-1 rounded border bg-light">
         <div class="bg-white flex-grow-1 border me-1 rounded px-3">
-          <form method="post" action="/upload" enctype="multipart/form-data" class="py-2">
+          <form method="post" action="/home/upload" enctype="multipart/form-data" class="py-2">
             <input type="file" name="file" onchange="form.submit()">
           </form>
         </div>
-        <div class="bg-white flex-1 border ms-1 rounded d-flex align-items-center px-3">
+        <div class="bg-white flex-1 border ms-1 rounded d-flex align-items-center px-4">
           <span class="mx-auto">Usage: {{ storage }} MB</span>
         </div>
       </div>
       <div class="border p-1 rounded mb-3 bg-light">
-        <table class="bg-white border table table-sm mb-1">
+        <table class="bg-white border table table-sm mb-0">
           <thead class="">
             <tr class="border">
               <th class="col-3 text-truncate ps-3">Name</th>
@@ -58,7 +58,7 @@
               <td class="text-secondary">{{ file.created_at }}</td>
               <td>{{ file.size }} B</td>
               <td class="text-center">
-                <form method="post" action="/download" class="d-inline mx-1">
+                <form method="post" action="/home/download" class="d-inline mx-1">
                   <button
                     name="file"
                     value="{{ file.name }}"
@@ -68,7 +68,7 @@
                     <small>Download</small>
                   </button>
                 </form>
-                <form method="post" action="/copy" class="d-inline mx-1">
+                <form method="post" action="/home/copy" class="d-inline mx-1">
                   <button
                     name="file"
                     value="{{ file.name }}"

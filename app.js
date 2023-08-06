@@ -1,6 +1,5 @@
 import crypto from "crypto";
 import fs from "fs";
-import os from "os";
 import path from "path";
 
 import AdmZip from "adm-zip";
@@ -108,7 +107,7 @@ app.get("/home", async (req, res) => {
   res.render("home.html", { files: files, storage: storage });
 });
 
-app.post("/upload", async (req, res) => {
+app.post("/home/upload", async (req, res) => {
   if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(400).send("No files were uploaded.");
   }
@@ -121,11 +120,6 @@ app.post("/upload", async (req, res) => {
     let user = await User.findOne({ username: req.session.username });
     files = user.files;
   } catch {}
-
-  let storageUsed = files.reduce(
-    (accumulator, file) => accumulator + file.size,
-    0
-  );
 
   file.mv(uploadPath, (error) => {
     if (error) {
@@ -143,15 +137,15 @@ app.post("/upload", async (req, res) => {
   });
 
   req.flash("info", `Uploaded ${file.name}`);
-  res.redirect("home");
+  res.redirect("/home");
 });
 
-app.post("/download", async (req, res) => {
+app.post("/home/download", async (req, res) => {
   let file = req.body.file;
   res.download(getUploadPath(req.session.username, file));
 });
 
-app.post("/copy", async (req, res) => {
+app.post("/home/copy", async (req, res) => {
   let file = req.body.file;
 
   let filename = path.parse(file).name;
@@ -181,7 +175,7 @@ app.post("/copy", async (req, res) => {
   });
 
   req.flash("info", `Created copy of ${file}`);
-  res.redirect("home");
+  res.redirect("/home");
 });
 
 app.post("/remove", async (req, res) => {
@@ -223,7 +217,6 @@ app.post("/delete_all_files", async (req, res) => {
 
 app.post("/export", async (req, res) => {
   const zip = new AdmZip();
-  const tmpdir = os.tmpdir();
 
   const directory = getUploadDirectory(req.session.username);
   fs.readdirSync(directory).forEach((f) => {
