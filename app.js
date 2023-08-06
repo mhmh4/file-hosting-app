@@ -33,7 +33,7 @@ app.use(
 );
 
 app.get("/", (req, res) => {
-  res.redirect("login");
+  res.redirect("/login");
 });
 
 app.get("/login", (req, res) => {
@@ -45,7 +45,7 @@ app.post("/login", async (req, res) => {
     const user = await User.findOne({ username: req.body.username });
     if (!user) {
       req.flash("info", "Invalid username or password");
-      res.redirect("login");
+      res.redirect("/login");
       return;
     }
 
@@ -53,16 +53,16 @@ app.post("/login", async (req, res) => {
       req.session.username = user.username;
     } else {
       req.flash("info", "Invalid username or password");
-      res.redirect("login");
+      res.redirect("/login");
       return;
     }
   } catch {
     req.flash("info", "Error: Login failed. Please try again.");
-    res.redirect("login");
+    res.redirect("/login");
     return;
   }
 
-  res.redirect("home");
+  res.redirect("/home");
   return;
 });
 
@@ -82,19 +82,19 @@ app.post("/register", async (req, res) => {
       });
       await newUser.save();
       req.flash("info", "Account created. You may now sign in.");
-      return res.redirect("login");
+      return res.redirect("/login");
     }
   } catch {
     req.flash("info", "Error: Registration failed. Please try again.");
   }
-  res.redirect("register");
+  res.redirect("/register");
 });
 
 app.get("/home", async (req, res) => {
   createDirectory(getUploadDirectory(req.session.username));
   let user = await User.findOne({ username: req.session.username });
   if (!user) {
-    res.redirect("login");
+    res.redirect("/login");
     return;
   }
   let files = user.files || [];
@@ -114,12 +114,6 @@ app.post("/home/upload", async (req, res) => {
 
   let file = req.files.file;
   let uploadPath = getUploadPath(req.session.username, file.name);
-
-  let files;
-  try {
-    let user = await User.findOne({ username: req.session.username });
-    files = user.files;
-  } catch {}
 
   file.mv(uploadPath, (error) => {
     if (error) {
@@ -178,7 +172,7 @@ app.post("/home/copy", async (req, res) => {
   res.redirect("/home");
 });
 
-app.post("/remove", async (req, res) => {
+app.post("/home/remove", async (req, res) => {
   let file = req.body.file;
 
   fs.unlink(getUploadPath(req.session.username, file), (err) => {
@@ -191,18 +185,18 @@ app.post("/remove", async (req, res) => {
   });
 
   req.flash("info", `Deleted ${file}`);
-  res.redirect("home");
+  res.redirect("/home");
 });
 
 app.post("/logout", (req, res) => {
-  res.redirect("login");
+  res.redirect("/login");
 });
 
 app.get("/settings", (req, res) => {
   res.render("settings.html");
 });
 
-app.post("/delete_all_files", async (req, res) => {
+app.post("/settings/remove_all", async (req, res) => {
   const directory = getUploadDirectory(req.session.username);
   fs.readdirSync(directory).forEach((f) => fs.rmSync(`${directory}/${f}`));
 
@@ -212,10 +206,10 @@ app.post("/delete_all_files", async (req, res) => {
   });
 
   req.flash("info", "All files deleted.");
-  res.redirect("home");
+  res.redirect("/home");
 });
 
-app.post("/export", async (req, res) => {
+app.post("/settings/export", async (req, res) => {
   const zip = new AdmZip();
 
   const directory = getUploadDirectory(req.session.username);
@@ -227,26 +221,26 @@ app.post("/export", async (req, res) => {
 
   res.set({
     "Content-Type": "application/zip",
-    "Content-Disposition": "attachment; filename=exported_files.zip",
+    "Content-Disposition": "attachment; filename=fhsp_export.zip",
   });
 
   return res.send(buf);
 });
 
-app.post("/delete", async (req, res) => {
-  await User.deleteOne({ username: req.session.username });
+app.post("/settings/delete_account", async (req, res) => {
+  try {
+    await User.deleteOne({ username: req.session.username });
+    fs.rm(
+      getUploadDirectory(req.session.username),
+      {
+        recursive: true,
+        force: true,
+      },
+      (err) => {}
+    );
+  } catch {}
 
-  fs.rm(
-    getUploadDirectory(req.session.username),
-    { recursive: true, force: true },
-    (err) => {
-      if (err) {
-        throw err;
-      }
-    }
-  );
-
-  res.redirect("login");
+  res.redirect("/login");
 });
 
 app.listen(port, () => {
