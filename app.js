@@ -32,8 +32,8 @@ app.use(
   })
 );
 
-import authController from "./routes/auth.js";
-app.use("/", authController);
+import authRoutes from "./routes/auth.js";
+app.use("/", authRoutes);
 
 app.get("/home", async (req, res) => {
   createDirectory(getUploadDirectory(req.session.username));
