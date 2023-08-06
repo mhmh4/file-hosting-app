@@ -1,22 +1,16 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>FHSP - Home</title>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
-    >
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg bg-primary">
+    <nav class="navbar navbar-expand-lg bg-secondary">
       <div class="container-fluid px-4">
-        <span class="navbar-brand text-white" href="#">FHSP</span>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <span class="navbar-brand text-white">FHSP</span>
+        <div class="collapse navbar-collapse">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item mx-2">
               <a class="nav-link link-light" href="/home">Home</a>
@@ -25,44 +19,30 @@
               <a class="nav-link link-light" href="/settings">Settings</a>
             </li>
           </ul>
-          <form class="d-flex" role="search" method="post" action="/logout">
-            <input class="btn btn-light py-1" type="submit" value="Logout">
+          <form method="post" action="/logout">
+            <input class="btn btn-outline-light py-1" type="submit" value="Logout">
           </form>
         </div>
       </div>
     </nav>
-    <div class="min-vh-100 bg-white border px-4">
+    <div class="min-vh-100 bg-white px-4">
       {% if messages.info %}
         <div class="my-1 bg-blue-100">
           <p>{{ messages.info }}</p>
         </div>
-      {% else %}
-        <div class="my-1">
-          <p class="select-none">&nbsp;</p>
-        </div>
       {% endif %}
-      <div class="d-flex my-2 p-1 py-2 rounded border">
-        <div class="bg-light flex-grow-1 border mx-1 rounded px-3">
-          <form
-            method="post"
-            action="upload"
-            enctype="multipart/form-data"
-            class="pt-1"
-          >
-            <input type="file" name="file">
-            <input
-              type="submit"
-              value="Upload"
-              class="btn btn-outline-primary rounded px-4 py-1 mb-1"
-            >
+      <div class="d-flex my-2 p-1 py-2 rounded border bg-light">
+        <div class="bg-white flex-grow-1 border mx-1 rounded px-3">
+          <form method="post" action="/upload" enctype="multipart/form-data" class="py-2">
+            <input type="file" name="file" onchange="form.submit()">
           </form>
         </div>
-        <div class="bg-light flex-1 border mx-1 rounded d-flex align-items-center px-3">
+        <div class="bg-white flex-1 border mx-1 rounded d-flex align-items-center px-3">
           <span class="mx-auto">Storage used: {{ storage }} MB / 100 MB</span>
         </div>
       </div>
       <div class="border p-2 rounded mb-3 bg-light">
-        <table class="bg-white border table-responsive table table-sm">
+        <table class="bg-white border table-responsive table table-sm mb-1">
           <thead class="">
             <tr class="border">
               <th class="col-3 text-truncate ps-3">Name</th>
@@ -78,7 +58,7 @@
               <td class="text-secondary">{{ file.created_at }}</td>
               <td>{{ file.size }} B</td>
               <td class="text-center">
-                <form method="post" action="download" class="d-inline mx-1">
+                <form method="post" action="/download" class="d-inline mx-1">
                   <button
                     name="file"
                     value="{{ file.name }}"
@@ -88,7 +68,7 @@
                     <small>Download</small>
                   </button>
                 </form>
-                <form method="post" action="copy" class="d-inline mx-1">
+                <form method="post" action="/copy" class="d-inline mx-1">
                   <button
                     name="file"
                     value="{{ file.name }}"
@@ -98,7 +78,7 @@
                     <small>Copy</small>
                   </button>
                 </form>
-                <form method="post" action="remove" class="d-inline mx-1">
+                <form method="post" action="/remove" class="d-inline mx-1">
                   <button
                     name="file"
                     value="{{ file.name }}"
