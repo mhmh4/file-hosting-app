@@ -2,7 +2,6 @@ import crypto from "crypto";
 import fs from "fs";
 import path from "path";
 
-import AdmZip from "adm-zip";
 import express from "express";
 import fileUpload from "express-fileupload";
 import flash from "express-flash";
@@ -33,7 +32,10 @@ app.use(
 );
 
 import authRoutes from "./routes/auth.js";
+import settingsRoutes from "./routes/settings.js";
+
 app.use("/", authRoutes);
+app.use("/settings", settingsRoutes);
 
 app.get("/home", async (req, res) => {
   createDirectory(getUploadDirectory(req.session.username));
@@ -134,57 +136,6 @@ app.post("/home/remove", async (req, res) => {
 });
 
 app.post("/logout", (req, res) => {
-  res.redirect("/login");
-});
-
-app.get("/settings", (req, res) => {
-  res.render("settings.html");
-});
-
-app.post("/settings/remove_all", async (req, res) => {
-  const directory = getUploadDirectory(req.session.username);
-  fs.readdirSync(directory).forEach((f) => fs.rmSync(`${directory}/${f}`));
-
-  await User.findOne({ username: req.session.username }).then((user) => {
-    user.files = [];
-    user.save();
-  });
-
-  req.flash("info", "All files deleted.");
-  res.redirect("/home");
-});
-
-app.post("/settings/export", async (req, res) => {
-  const zip = new AdmZip();
-
-  const directory = getUploadDirectory(req.session.username);
-  fs.readdirSync(directory).forEach((f) => {
-    zip.addLocalFile(`${directory}/${f}`);
-  });
-
-  const buf = zip.toBuffer();
-
-  res.set({
-    "Content-Type": "application/zip",
-    "Content-Disposition": "attachment; filename=fhsp_export.zip",
-  });
-
-  return res.send(buf);
-});
-
-app.post("/settings/delete_account", async (req, res) => {
-  try {
-    await User.deleteOne({ username: req.session.username });
-    fs.rm(
-      getUploadDirectory(req.session.username),
-      {
-        recursive: true,
-        force: true,
-      },
-      (err) => {}
-    );
-  } catch {}
-
   res.redirect("/login");
 });
 
