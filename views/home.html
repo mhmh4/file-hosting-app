@@ -31,18 +31,18 @@
           <p>{{ messages.info }}</p>
         </div>
       {% endif %}
-      <div class="d-flex my-2 p-1 py-2 rounded border bg-light">
-        <div class="bg-white flex-grow-1 border mx-1 rounded px-3">
+      <div class="d-flex my-2 p-1 rounded border bg-light">
+        <div class="bg-white flex-grow-1 border me-1 rounded px-3">
           <form method="post" action="/upload" enctype="multipart/form-data" class="py-2">
             <input type="file" name="file" onchange="form.submit()">
           </form>
         </div>
-        <div class="bg-white flex-1 border mx-1 rounded d-flex align-items-center px-3">
+        <div class="bg-white flex-1 border ms-1 rounded d-flex align-items-center px-3">
           <span class="mx-auto">Storage used: {{ storage }} MB / 100 MB</span>
         </div>
       </div>
-      <div class="border p-2 rounded mb-3 bg-light">
-        <table class="bg-white border table-responsive table table-sm mb-1">
+      <div class="border p-1 rounded mb-3 bg-light">
+        <table class="bg-white border table table-sm mb-1">
           <thead class="">
             <tr class="border">
               <th class="col-3 text-truncate ps-3">Name</th>
