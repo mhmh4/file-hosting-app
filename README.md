@@ -16,7 +16,7 @@ git clone https://github.com/mhmh4/minesweeper.git
 npm i
 ```
 
-3\) ...
+3\) Create a `.env` file in the root directory, then add values for the variables `PORT` and `MONGODB_URI`.
 
 ```
 PORT=3000
