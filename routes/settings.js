@@ -39,7 +39,7 @@ router.post("/remove_all", async (req, res) => {
     user.save();
   });
 
-  req.flash("info", "All files deleted.");
+  req.flash("info", "Removed all files.");
   res.redirect("/home");
 });
 

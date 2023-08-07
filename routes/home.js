@@ -90,7 +90,7 @@ router.post("/copy", async (req, res) => {
     user.save();
   });
 
-  req.flash("info", `Created copy of ${file}`);
+  req.flash("info", `Created a copy of ${file}`);
   res.redirect("/home");
 });
 
@@ -106,7 +106,7 @@ router.post("/remove", async (req, res) => {
     user.save();
   });
 
-  req.flash("info", `Deleted ${file}`);
+  req.flash("info", `Removed ${file}`);
   res.redirect("/home");
 });
 

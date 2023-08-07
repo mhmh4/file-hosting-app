@@ -48,7 +48,7 @@ router.post("/register", async (req, res) => {
     return res.redirect("/register");
   }
 
-  req.flash("info", "Account created. You may now sign in.");
+  req.flash("info", "Your account has been created.");
   return res.redirect("/login");
 });
 
