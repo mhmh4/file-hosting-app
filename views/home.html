@@ -27,8 +27,8 @@
     </nav>
     <div class="min-vh-100 bg-white px-4">
       {% if messages.info %}
-        <div class="my-1 bg-blue-100">
-          <p>{{ messages.info }}</p>
+        <div class="alert bg-primary-subtle my-2">
+          {{ messages.info }}
         </div>
       {% endif %}
       <div class="d-flex my-2 p-1 rounded border bg-light">
