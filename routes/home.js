@@ -64,7 +64,7 @@ router.post("/download", async (req, res) => {
 router.post("/copy", async (req, res) => {
   const file = req.body.file;
 
-  const filename = path.parse(file).name;
+  let filename = path.parse(file).name;
   filename = filename + ".copy" + path.extname(file);
 
   const src = getUploadPath(req.session.username, file);
