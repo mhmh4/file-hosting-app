@@ -1,5 +1,6 @@
 import crypto from "crypto";
 
+import dotenv from "dotenv/config";
 import express from "express";
 import fileUpload from "express-fileupload";
 import flash from "express-flash";
@@ -13,9 +14,9 @@ import homeRoutes from "./routes/home.js";
 import settingsRoutes from "./routes/settings.js";
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
-mongoose.connect("mongodb://127.0.0.1:27017/fhsp");
+mongoose.connect(process.env.MONGODB_URI);
 nunjucks.configure("views", { express: app, watch: true });
 
 app.use(express.urlencoded({ extended: true }));
