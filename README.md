@@ -7,7 +7,7 @@
 1\) Clone the repository.
 
 ```
-git clone https://github.com/mhmh4/minesweeper.git
+git clone https://github.com/mhmh4/FHSP.git
 ```
 
 2\) Install npm modules.
