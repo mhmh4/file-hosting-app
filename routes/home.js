@@ -14,19 +14,26 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   createDirectory(getUploadDirectory(req.session.username));
-  const user = await User.findOne({ username: req.session.username });
-  if (!user) {
-    res.redirect("/login");
-    return;
+
+  try {
+    const user = await User.findOne({ username: req.session.username });
+    if (!user) {
+      res.redirect("/login");
+      return;
+    }
+    const files = [...user.files];
+
+    const usage = files.reduce((accumulator, file) => {
+      return accumulator + file.size;
+    }, 0);
+
+    const usageInMegabytes = Math.round(usage / 1_000_000);
+
+    return res.render("home.html", { files: files, usage: usageInMegabytes });
+  } catch (error) {
+    req.flash("info", "Login failed. Please try again.");
+    return res.redirect("login");
   }
-  const files = user.files || [];
-  let storage = 0;
-  for (const f of files) {
-    storage += f.size;
-  }
-  storage /= 1_000_000;
-  storage = Math.round(storage);
-  res.render("home.html", { files: files, storage: storage });
 });
 
 router.post("/upload", async (req, res) => {
