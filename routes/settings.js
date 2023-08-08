@@ -40,7 +40,7 @@ router.post("/remove_all", async (req, res) => {
   });
 
   req.flash("info", "Removed all files.");
-  res.redirect("/home");
+  res.redirect("/settings");
 });
 
 router.post("/delete_account", async (req, res) => {
@@ -56,6 +56,7 @@ router.post("/delete_account", async (req, res) => {
     );
   } catch {}
 
+  req.flash("info", "Account deleted.");
   res.redirect("/login");
 });
 

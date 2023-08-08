@@ -26,6 +26,11 @@
       </div>
     </nav>
     <div class="min-vh-100 bg-white px-4">
+      {% if messages.info %}
+        <div class="alert bg-primary-subtle my-2">
+          {{ messages.info }}
+        </div>
+      {% endif %}
       <div class="bg-white mx-auto">
         <h4 class="my-3">Settings</h4>
         <div class="my-3">
