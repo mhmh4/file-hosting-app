@@ -21,7 +21,7 @@ router.post("/login", async (req, res) => {
     }
     req.session.username = user.username;
   } catch (error) {
-    req.flash("info", "Something went wrong. Please try again.");
+    req.flash("info", "Error: login failed");
     return res.redirect("/login");
   }
 
@@ -43,13 +43,13 @@ router.post("/register", async (req, res) => {
       username: req.body.username,
       password: req.body.password,
     }).save();
+
+    req.flash("info", "Account created. You may now log in");
+    return res.redirect("/login");
   } catch {
-    req.flash("info", "Something went wrong. Please try again.");
+    req.flash("info", "Error: registration failed");
     return res.redirect("/register");
   }
-
-  req.flash("info", "Your account has been created.");
-  return res.redirect("/login");
 });
 
 router.post("/logout", (req, res) => {
