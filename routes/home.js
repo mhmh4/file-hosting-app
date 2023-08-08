@@ -79,11 +79,19 @@ router.post("/download", async (req, res) => {
 router.post("/copy", async (req, res) => {
   const file = req.body.file;
 
-  let filename = path.parse(file).name;
-  filename = filename + ".copy" + path.extname(file);
+  let currentFilename = path.parse(file).name;
+  let filename = currentFilename + ".copy" + path.extname(file);
 
   const src = getUploadPath(req.session.username, file);
   const dest = getUploadPath(req.session.username, filename);
+
+  try {
+    const user = await User.findOne({ username: req.session.username });
+    if (user.files.some((f) => f.name === filename)) {
+      req.flash("info", `Copy of ${currentFilename} already exists.`);
+      return res.redirect("/home");
+    }
+  } catch {}
 
   fs.copyFile(src, dest, (err) => {
     if (err) {
