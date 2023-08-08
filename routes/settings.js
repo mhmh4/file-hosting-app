@@ -16,12 +16,18 @@ router.post("/export", async (req, res) => {
   const zip = new AdmZip();
 
   const directory = getUploadDirectory(req.session.username);
+
+  const isDirectoryEmpty = fs.readdirSync(directory).length === 0;
+  if (isDirectoryEmpty) {
+    req.flash("info", "Export failed since no are files uploaded");
+    return res.redirect("/settings");
+  }
+
   fs.readdirSync(directory).forEach((f) => {
     zip.addLocalFile(`${directory}/${f}`);
   });
 
   const buf = zip.toBuffer();
-
   res.set({
     "Content-Type": "routerlication/zip",
     "Content-Disposition": "attachment; filename=fhsp_export.zip",
