@@ -88,7 +88,7 @@ router.post("/copy", async (req, res) => {
   try {
     const user = await User.findOne({ username: req.session.username });
     if (user.files.some((f) => f.name === filename)) {
-      req.flash("info", `Copy of ${currentFilename} already exists.`);
+      req.flash("info", `Copy of ${file} already exists.`);
       return res.redirect("/home");
     }
   } catch {}
