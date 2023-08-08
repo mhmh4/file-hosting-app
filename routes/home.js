@@ -37,12 +37,20 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/upload", async (req, res) => {
-  if (!req.files || Object.keys(req.files).length === 0) {
-    return res.status(400).send("No files were uploaded.");
+  if (!req.files) {
+    return res.status(400).send("No files were uploaded");
   }
 
   const file = req.files.file;
   const uploadPath = getUploadPath(req.session.username, file.name);
+
+  try {
+    const user = await User.findOne({ username: req.session.username });
+    if (user.files.some((f) => f.name === file.name)) {
+      req.flash("info", "Cannot upload file with existing filename.");
+      return res.redirect("/home");
+    }
+  } catch {}
 
   file.mv(uploadPath, (error) => {
     if (error) {
