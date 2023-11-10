@@ -1,4 +1,4 @@
-# FHSP
+# file-hosting-app
 
 <img src="images/screenshot.png">
 
@@ -7,7 +7,7 @@
 1\) Clone the repository.
 
 ```
-git clone https://github.com/mhmh4/FHSP.git
+git clone https://github.com/mhmh4/file-hosting-app.git
 ```
 
 2\) Install npm modules.
